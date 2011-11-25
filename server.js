@@ -59,7 +59,7 @@ app.get('/', function(req, res) {
 		cssClass: 'fancy',
 		fields: [
 			{label: 'Login', name: 'login', type: 'textField'},
-			{label: 'Password', name: 'password', type: 'textField'},
+			{label: 'Password', name: 'password', type: 'passwordField'},
 		]
 	});
 	res.render('index.jade', {
