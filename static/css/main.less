@@ -1,0 +1,281 @@
+@bg-color: #f0f0f0;
+
+/* GLOBAL RESET */
+
+div, p, table, th, tr, td, span, h1, h2, h3, h4, h5, h6, ul, ol, li, input, select, body, textarea {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/* GENERAL FUNCTIONS */
+
+.box-shadow(@x: 0, @y: 0, @blur: 1px, @color: #000) {
+	box-shadow: @arguments;
+	-moz-box-shadow: @arguments;
+	-webkit-box-shadow: @arguments;
+}
+
+.rounded-corners(@radius: 5px) {
+	border-radius: @radius;
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+/* STYLING */
+
+#toolbar {
+	height: 30px;
+	background-color: #444;
+	.box-shadow(0, 0, 10px);
+}
+
+/* ============================================================================
+   Global styles
+   ============================================================================ */
+
+body {
+	background-color: @bg-color;
+	color: #444;
+	font-family: 'Molengo', Arial, sans-serif;
+	font-size: 17px;
+}
+
+h1, h1.welcome {
+	font-size: 30px;
+	text-shadow: 0px -1px 1px rgba(0,0,0,.2);
+	margin-bottom: 25px;
+}
+
+h1.welcome {
+	font-size: 50px;
+	font-family: 'Dancing Script', Arial, sans-serif;
+}
+
+h2 {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+p {
+	margin: 10px 0px 10px 0px;
+}
+
+a {
+	text-decoration: none;
+}
+
+input[type="text"], input[type="password"], textarea {
+	display: block;
+	width: 250px;
+	padding: 5px;
+	font-size: 16px;
+	border: 1px solid #aaa;
+	background: -webkit-gradient(linear, 0 0, 0 15, from(rgb(230, 230, 230)), to(rgb(255, 255, 255)));
+	color: #444;
+}
+
+button[type="submit"] {
+	text-align: right;
+	color: #eee;
+	/*background-color: rgb(20, 140, 20);*/
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(20, 140, 20)), to(rgb(10, 100, 10)));
+	padding: 5px 18px;
+	font-size: 13px;
+	font-weight: bold;
+	/*-webkit-box-shadow: 0 2px 3px #999;*/
+	border: 1px solid rgb(10, 100, 10);
+}
+
+label {
+	float: left;
+	margin-left: -220px;
+	text-align: right;
+	width: 200px;
+	font-weight: bold;
+	padding-right: 10px;
+	line-height: 29px;
+}
+
+form {
+	display: block;
+	margin: 30px 0;
+	width: 500px;
+	text-align: left;
+
+	&.fancy {
+		padding: 40px 20px;
+		background-color: rgb(255, 255, 255);
+		border: 1px solid #bbb;
+		.rounded-corners(10px);
+		-webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);		
+	}
+
+	&.chat-input {
+		position: fixed;
+		bottom: 20px;
+		left: 0;
+	}
+
+	.error-message {
+		color: #922;
+		font-weight: bold;
+		padding: 0;
+		margin: 0 0 30px 200px;
+	}
+
+	.row {
+		display: block;
+		margin-bottom: 20px;
+		margin-left: 200px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.errorlist {
+		list-style: none;
+	}
+
+	li {
+		padding: 7px 0px;
+		color: rgb(200, 10, 10);
+	}
+}
+
+
+form span.error > input[type="text"], form span.error > input[type="text"] {
+	border: 2px solid rgb(200, 10, 10);
+}
+
+/* ============================================================================
+   #top_navi
+   ============================================================================ */
+
+#top_navi {
+	height: 40px;
+	line-height: 40px;
+	padding: 0px 20px;
+	background-color: #444;
+	border-bottom: 1px solid #222;
+
+	.tools {
+		float: right;
+		color: rgb(240, 240, 240);
+	}
+
+	a {
+		color: rgb(240, 240, 240);
+	}
+}
+
+/* ============================================================================
+   #main_content
+   ============================================================================ */
+
+#main_content {
+	margin: 0 auto;
+	margin-top: 100px;
+	width: 760px;
+}
+
+#main_content div.button-row {
+	padding: 20px 0px;
+}
+
+#main_content a.button {
+	color: #eee;
+	/*background-color: rgb(20, 140, 20);*/
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(20, 140, 20)), to(rgb(10, 100, 10)));
+	padding: 5px 18px;
+	font-size: 13px;
+	font-weight: bold;
+	/*-webkit-box-shadow: 0 2px 3px #999;*/
+	border: 1px solid rgb(10, 100, 10);
+}
+
+#main_content a.button:hover {
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(20, 180, 20)), to(rgb(10, 140, 10)));
+}
+
+/* ============================================================================
+   #message-view
+   ============================================================================ */
+
+#message-view {
+	position: absolute;
+	top: 80px;
+	left: 50px;
+	right: 300px;
+	bottom: 100px;
+	background-color: #fff;
+	.box-shadow(0, 0, 7px, rgba(0,0,0,0.3));
+
+	ul {
+		list-style: none;
+
+		li {
+			color: #666;
+			background-color: #fff;
+			border-bottom: 1px solid #eee;
+
+			.user {
+				float: left;
+				display: block;
+				width: 100px;
+				padding: 7px 15px;
+				text-align: right;
+			}	
+
+			.message {
+				display: block;
+				margin-left: 130px;
+				padding: 7px 15px;
+				border-left: 1px solid #eee;
+			}
+		}
+	}
+}
+
+
+/* ============================================================================
+   Tables
+   ============================================================================ */
+
+table {
+	width: 100%;
+	border: 1px solid rgb(200, 200, 200);
+}
+
+th {
+	padding: 5px 15px 5px 10px;
+	text-align: left;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(70, 70, 70)), to(rgb(20, 20, 20)));
+	border-left: 1px solid rgb(62, 100, 141);
+	border-top: 1px solid rgb(62, 100, 141);
+	border-bottom: 1px solid rgb(62, 100, 141);
+	color: rgb(240, 240, 240);
+}
+
+th:last-child {
+	border-right: 1px solid rgb(62, 100, 141);
+}
+
+th.small {
+	width: 120px;
+}
+
+td {
+	padding: 5px 15px 5px 10px;
+	background-color: rgb(250, 250, 250);
+}
+
+td > a:hover {
+	text-decoration: underline;
+}
+
+td > span.info {
+	font-size: 14px;
+	color: #888;
+}

@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	div#welcome-screen
+		h1 welcome to twaddlr!
+
+		!= form.as_div()
+
+		form(method='post', id='signin_form', class='fancy')
+			div.row
+			div.row
+			div.row.buttons
+				button(type='submit') Login
+					
+		p 
+			| Have no account yet? 
+			a(href='/register') Sign up now!
