@@ -1,9 +1,6 @@
 var util = require('util'),
 	less = require('less'),
-	express = require('express'),
-	seforms = require('./lib/seforms');
-
-	//api = require('./lib/api');
+	express = require('express');
 
 var PORT = 3000;
 
@@ -18,7 +15,7 @@ app.configure(function() {
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 	app.set('view options', {
-		layout: false
+		layout: false // Use layout features provided by Jade
 	});
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
@@ -40,36 +37,16 @@ app.error(function(err, req, res, next) {
 		console.log(err);
 		next();
 	} else {
-		next(err, req, res);	
+		next(err, req, res);
 	}
 });
 
-function restricted(req, res, next) {
-	if (req.session.user) {
-		next();
-	} else {
-		req.session.error = 'Access denied!';
-		res.redirect('/login');
-	}
-}
+// Setup routes
+require('./lib/routes')(app);
+require('./lib/rest_api')(app);
 
-// Configure our routes
-app.get('/', function(req, res) {
-	var form = seforms.createForm({
-		cssClass: 'fancy',
-		fields: [
-			{label: 'Login', name: 'login', type: 'textField'},
-			{label: 'Password', name: 'password', type: 'passwordField'},
-		]
-	});
-	res.render('index.jade', {
-		form: form
-	});
-});
-
-app.get('/login', function(req, res) {
-	res.render('login.jade');	
-});
+// Initialize Socket.IO
+require('./lib/com_hub')(app);
 
 // Ok, let's listen on port 9000
 console.log("Starting server on port " + PORT);
