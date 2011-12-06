@@ -18,3 +18,15 @@ block content
 		p
 			| No account yet?
 			a(href='/register') Sign up now!
+
+block footer_scripts
+	script
+		$(document).ready(function() {
+			//$('#signin_form input[name="login"]').blur(function(e) {
+			//	console.log('Checking if login is correct ...');
+			//});
+			$('#signin_form').submit(function(e) {
+				e.preventDefault();
+				// TODO: Do login stuff
+			})
+		});
