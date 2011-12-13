@@ -4,6 +4,8 @@ block content
 	div#welcome-screen
 		h1 welcome to twaddlr!
 
+		= form.to_html()
+
 		form(method='post', id='signin_form', class='fancy')
 
 			p.row
