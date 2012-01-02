@@ -22,7 +22,7 @@ app.configure(function() {
 	app.use(express.session({ secret: 'dumdidadidum' }));
 	//app.use(express.logger());
 	app.use(app.router);
-	app.use(express.compiler({ src: staticDir, enable: ['less'] }));
+	//app.use(express.compiler({ src: staticDir, enable: ['less'] }));
 	app.use(express.static(staticDir));
 });
 
