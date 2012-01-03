@@ -12,6 +12,7 @@ block content
       p.row
         label Password
         input(type='password', name='password')
+
       p.row.buttons
         button(type='submit') Login
 
@@ -25,7 +26,7 @@ block footer_scripts
       //$('#signin_form input[name="login"]').blur(function(e) {
       //  console.log('Checking if login is correct ...');
       //});
-      $('#signin_form').submit(function(e) {
+      $('form').submit(function(e) {
         e.preventDefault();
         // TODO: Do login stuff
       })
