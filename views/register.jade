@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  div#register-screen
+    h1 Sign up for twaddlr
+
+    form(method='post', id='register_form', class='fancy')
+
+      p.row
+        label Username
+        input#username(type='text', name='username')
+      p.row
+        label Email
+        input#email(type='text', name='email')
+      p.row
+        label Password
+        input#password(type='text', name='password')
+      p.row
+        label Verify Password
+        input#password_verify(type='text', name='password_verify')
+
+      p.row.buttons
+        button(type='submit') Create Account
+
+
+block footer_scripts
+  script(src='/js/ext/form2js/form2js.js')
+  script(src='/js/ext/form2js/jquery.toObject.js')
+  script(src='/js/register.js')
