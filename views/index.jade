@@ -1,26 +1,48 @@
 extends layout
 
 block content
-  div#welcome-screen
-    h1 welcome to twaddlr!
+  #login-screen(data-role='screen')
+    h1 Welcome to twaddlr!
 
-    form(method='post', id='signin_form', class='fancy')
-
-      p.row
+    form(method='post', id='signin_form', class='login')
+      .row
         label Login
-        input(type='text', name='login')
-      p.row
+        input#login(type='text', name='login')
+      .row
         label Password
-        input(type='password', name='password')
+        input#password(type='password', name='password')
 
-      p.row.buttons
+      .row.buttons
         button(type='submit') Login
 
-    p
-      | No account yet?
-      a(href='/register') Sign up now!
+    p Have no account yet? <a href="#">Sign up</a> now!
+
+    .segment(style='display: none;')
+      h2 Have no account yet? Sign up now!
+
+      form(method='post', id='register_form', class='fancy')
+
+        .row
+          label Username
+          input#username(type='text', name='username')
+        .row
+          label Email
+          input#email(type='text', name='email')
+        .row
+          label Password
+          input#password(type='text', name='password')
+        .row
+          label Verify Password
+          input#password_verify(type='text', name='password_verify')
+
+        p.row.buttons
+          button(type='submit') Create Account
 
 block footer_scripts
+  script(src='/js/ext/form2js/form2js.js')
+  script(src='/js/ext/form2js/jquery.toObject.js')
+  script(src='/js/register.js')
+
   script
     $(document).ready(function() {
       //$('#signin_form input[name="login"]').blur(function(e) {
@@ -29,5 +51,15 @@ block footer_scripts
       $('form').submit(function(e) {
         e.preventDefault();
         // TODO: Do login stuff
-      })
+      });
+
+      $('.row input').focus(function(e) {
+        $(this).prev().css('opacity', '0.0');
+      }).blur(function(e) {
+        // Show the label if there's still no value
+        if ($(this).val() == '') {
+          $(this).prev().css('opacity', '1.0');
+        }
+      });
+
     });
