@@ -82,10 +82,34 @@ a {
 }
 
 form {
-  display: block;
+  display: inline-block;
   margin: 0 auto;
   //width: 500px;
   text-align: left;
+
+  &.register {
+    .left {
+      float: left;
+      width: 400px;
+    }
+
+    .right {
+      padding-top: 10px;
+      float: left;
+    }
+  }
+
+  &.login {
+
+    .row {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 150px;
+    }
+  }
 
   label {
     position: absolute;
@@ -109,8 +133,9 @@ form {
   }
 
   button[type="submit"] {
+    @bt-color: #448be4;
+
     display: inline-block;
-    @bt-color: #2F8BFF;
     text-align: right;
     color: #eee;
     line-height: 32px;
@@ -129,19 +154,6 @@ form {
 
     &:active {
       .box-shadow(0 1px 4px rgba(0,0,0,0.5) inset);
-    }
-  }
-
-  &.login {
-    display: inline-block;
-
-    .row {
-      display: inline-block;
-      margin-right: 10px;
-    }
-
-    input[type="text"], input[type="password"] {
-      width: 150px;
     }
   }
 

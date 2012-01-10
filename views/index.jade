@@ -15,7 +15,7 @@ block content
       .row.buttons
         button(type='submit') Login
 
-    p Have no account yet? <a href="#">Sign up</a> now!
+    p Have no account yet? <a href="/register">Register</a> now!
 
 block footer_scripts
   script(src='/js/ext/form2js/form2js.js')
@@ -31,15 +31,6 @@ block footer_scripts
         e.preventDefault();
         // TODO: Do login stuff
       });
-
-      /*
-      $('button[type="submit"]').mousedown(function(e) {
-        $(this).addClass('mousedown');
-      }).mouseup(function(e) {
-        $(this).removeClass('mousedown');
-      }).mouseout(function(e) {
-        $(this).removeClass('mousedown');
-      });*/
 
       $('.row input').focus(function(e) {
         $(this).prev().css('opacity', '0.0');
