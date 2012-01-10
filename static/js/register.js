@@ -13,7 +13,7 @@ $(document).ready(function() {
       data: form_data
     })
     .done(function() {
-      alert("Created new user");
+      //alert("Created new user");
     })
     .fail(function(response) {
       console.log(response);
