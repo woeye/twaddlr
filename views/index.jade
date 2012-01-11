@@ -1,12 +1,15 @@
 extends layout
 
 block content
+  .error
+    span Incorrect login/password :(
+
   #login-screen(data-role='screen')
 
     form(method='post', id='signin_form', class='login')
 
       .left
-        h1 Welcome to twaddlr!
+        h1 Welcome to twaddlr
         p Have no account yet? <a href="/register">Register</a> now!
 
       .right
