@@ -1,28 +1,21 @@
 extends layout
 
 block content
-  .error
-    span Incorrect login/password :(
+  h1 Welcome to twaddlr!
 
-  #login-screen(data-role='screen')
+  form(method='post', id='signin_form', class='login')
+    .row
+      label Login
+      input#login(type='text', name='login')
+    .row
+      label Password
+      input#password(type='password', name='password')
 
-    form(method='post', id='signin_form', class='login')
+    .row.buttons
+      button(type='submit') Login
 
-      .left
-        h1 Welcome to twaddlr
-        p Have no account yet? <a href="/register">Register</a> now!
+  p Have no account yet? <a href="/register">Register</a> now!
 
-      .right
-
-        .row
-          label Login
-          input#login(type='text', name='login')
-        .row
-          label Password
-          input#password(type='password', name='password')
-
-        .row.buttons
-          button(type='submit') Login
 
 
 block footer_scripts
@@ -40,12 +33,12 @@ block footer_scripts
         // TODO: Do login stuff
       });
 
-      $('.row input').focus(function(e) {
+      /*$('.row input').focus(function(e) {
         $(this).prev().css('opacity', '0.0');
       }).blur(function(e) {
         // Show the label if there's still no value
         if ($(this).val() == '') {
           $(this).prev().css('opacity', '1.0');
         }
-      });
+      });*/
     });
