@@ -5,7 +5,7 @@
   "keywords": ["node.js", "socket.io", "chat", "express"],
   "version": "0.1.0",
   "dependencies": {
-    "monodb": "",
+    "mongodb": "",
     "express": "",
     "jade": "",
     "less": "",
