@@ -1,32 +1,28 @@
 extends layout
 
 block content
-  div#register-screen
+  form(method='post', id='register_form')
+    .info
+      h2 Sign up for twaddlr
+      p Already have an account? Please <a href="/">log in</a>
 
+    .fields
 
-    form.register(method='post', id='register_form')
+      .row.input
+        label Username
+        input#username(type='text', name='username')
+      .row.input
+        label Email
+        input#email(type='text', name='email')
+      .row.input
+        label Password
+        input#password(type='password', name='password')
+      .row.input
+        label Verify Password
+        input#password_verify(type='password', name='password_verify')
 
-      .left
-        h1 Sign up for twaddlr
-        p Already have an account? Please <a href="/">log in</a>
-
-      .right
-
-        .row
-          label Username
-          input#username(type='text', name='username')
-        .row
-          label Email
-          input#email(type='text', name='email')
-        .row
-          label Password
-          input#password(type='password', name='password')
-        .row
-          label Verify Password
-          input#password_verify(type='password', name='password_verify')
-
-        .row.buttons
-          button(type='submit') Create Account
+      .row.buttons
+        button(type='submit') Create Account
 
 
 block footer_scripts
