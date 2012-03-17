@@ -93,34 +93,56 @@ form {
   //width: 500px;
   text-align: left;
 
-  .left {
+  .info {
     float: left;
-    width: 400px;
+    padding-right: 50px;
   }
 
-  .right {
-    padding-top: 10px;
+  .fields {
     float: left;
+    padding-left: 50px;
+    border-left: 1px solid #ccc;
+  }
+
+  .row {
+    position: relative;
+    display: block;
+    height: 33px;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.input {
+      width: 244px;
+      background-color: #fff;
+      .box-shadow(0 1px 5px rgba(0,0,0,0.3) inset);
+      .rounded-corners(4px);      
+    }
   }
 
   label {
     position: absolute;
     left: 10px;
-    top: 5px;
+    top: 8px;
     color: #888;
+    z-index: 1;
 
     -webkit-transition-property: opacity;
     -webkit-transition-duration: 0.15s;
   }
 
   input[type="text"], input[type="password"], textarea {
-    width: 240px;
+    position: absolute;
+    width: 230px;
     padding: 7px;
     border: 1px solid #ccc;
     font-size: 16px;
     color: #444;
-    background-color: #fcfcfc;
-    .box-shadow(0 1px 3px rgba(0,0,0,0.25) inset);
+    background-color: transparent;
+    z-index: 2;
+    border: none;
     .rounded-corners(4px);
   }
 
@@ -163,16 +185,6 @@ form {
     font-weight: bold;
     padding: 0;
     margin: 0 0 30px 200px;
-  }
-
-  .row {
-    position: relative;
-    display: block;
-    margin-bottom: 10px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .errorlist {
