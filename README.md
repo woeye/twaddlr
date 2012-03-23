@@ -13,7 +13,7 @@ Therefore make sure you have a MongoDB up and running. If you're on a Mac and us
     brew install mongodb
     cd <where you want to store your data>
     mkdir -p data/twaddlr
-    mongodb --dbpath data/twaddlr
+    mongod --dbpath data/twaddlr
   
 Next you need all required node.js module. From the root of your checked out twaddlr repository simply type:
 
