@@ -13,11 +13,11 @@
     <script src="/js/handlebars-1.0.0.beta.6.js"></script>
     <script src="http://yui.yahooapis.com/3.5.0pr4/build/yui/yui-min.js"></script>
 
-    <script id="register-form-template" type="text/x-handlebars-template">
+    <script id="login-form-template" type="text/x-handlebars-template">
       <form method="post" id="signin_form" class="login">
         <div class="info">
           <h2>Welcome to twaddlr</h2>
-          <p>Have no account yet? <a href="/register">Register</a> now!</p>
+          <p>Have no account yet? <a class="register-link" href="/register">Register</a> now!</p>
         </div>
         <div class="fields">
           <div class="row input">
@@ -35,18 +35,9 @@
       </form>
     </script>
 
-  </head>
-  <body class="yui3-app">
-    <div id="top_navi">
-    </div>
-
-    <div id="main_content" class="yui3-app-views">
-      <!--
-      <div class="error"><span>Incorrect login/password :(</span></div>
-      <form method="post" id="signin_form" class="login">
+    <script id="register-form-template" type="text/x-handlebars-template">
+      <form method="post" id="register_form" class="login">
         <div class="info">
-          <h2>Welcome to twaddlr</h2>
-          <p>Have no account yet? <a href="/register">Register</a> now!</p>
         </div>
         <div class="fields">
           <div class="row input">
@@ -54,15 +45,26 @@
             <input id="login" type="text" name="login" placeholder="Login"/>
           </div>
           <div class="row input">
+            <label for="email" class="hidden">Login</label>
+            <input id="email" type="text" name="email" placeholder="Email"/>
+          </div>
+          <div class="row input">
             <label for="password" class="hidden">Password</label>
             <input id="password" type="password" name="password" placeholder="Password"/>
           </div>
           <div class="row buttons">
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
           </div>
         </div>
       </form>
-      -->
+    </script>
+
+  </head>
+  <body class="yui3-app">
+    <div id="top_navi">
+    </div>
+
+    <div id="main_content" class="yui3-app-views">
     </div>
 
     <script>
@@ -78,6 +80,24 @@
         };*/
 
         // This one will work - because Y.HomeView is an class object and thus 'new Y.HomeView()' will work
+        Y.LoginView = Y.Base.create('loginView', Y.View, [], {
+          render: function() {
+            var source = Y.one('#login-form-template').getHTML();
+            //var template = Handlebars.compile(source);
+            //var html = template();
+            console.log(source);
+            var conti = this.get('container');
+            conti.append(source);
+            //conti.one('a.register-link').on('click', function(e) {
+            //  alert('nope');
+            //});
+
+
+
+            return this;
+          }
+        });
+
         Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
           render: function() {
             var source = Y.one('#register-form-template').getHTML();
@@ -92,13 +112,20 @@
         var app = new Y.App({
           transitions: true,
           viewContainer: '#main_content',
+          serverRouting: false, // coming soon (tm)
           views: {
-            home: { type: 'RegisterView' } 
+            home: { type: 'LoginView' },
+            register: { type: 'RegisterView' } 
           }
         });
+
         app.route('/', function() {
           this.showView('home');
         });
+
+        app.route('/register', function() {
+          this.showView('register');
+        })
 
         app.render().dispatch();
       });
