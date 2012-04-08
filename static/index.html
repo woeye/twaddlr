@@ -1,160 +1,83 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <title>twaddlr alpha</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="robots" content="noindex">
-    <meta name="robots" content="nofollow">
+    <head>
+        <title>twaddlr alpha</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="robots" content="noindex">
+        <meta name="robots" content="nofollow">
 
-    <link rel="stylesheet/less" type="text/css" href="css/main.less">
-    <!--link rel="stylesheet" type="text/css" href="css/main.css"/-->
-    <!--link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Dancing+Script:regular')--><!--link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Molengo&subset=latin')-->
-    <script src="js/handlebars-1.0.0.beta.6.js"></script>
-    <script src="js/less-1.3.0.min.js"></script>
-    <script src="http://yui.yahooapis.com/3.5.0pr6/build/yui/yui-min.js"></script>
+        <link rel="stylesheet/less" type="text/css" href="css/main.less">
+        <!--link rel="stylesheet" type="text/css" href="css/main.css"/-->
+        <!--link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Dancing+Script:regular')--><!--link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Molengo&subset=latin')-->
+        <script src="js/handlebars-1.0.0.beta.6.js"></script>
+        <script src="js/less-1.3.0.min.js"></script>
+        <script src="js/jquery-1.7.2.min.js"></script>
+        <script src="js/underscore.js"></script>
+        <script src="js/backbone.js"></script>
 
-    <!-- Load app scripts -->
-    <script src="js/input-pimp.js"></script>
-   
-    <script id="login-form-template" type="text/x-handlebars-template">
-      <form method="post" id="signin_form" class="login">
-        <div class="info">
-          <h2>Welcome to twaddlr</h2>
-          <p>Have no account yet? <a class="register-link" href="/register">Register</a> now!</p>
-        </div>
-        <div class="fields">
-          <div class="row input">
-            <label for="login">Login</label>
-            <input id="login" type="text" name="login" autocomplete="off" />
-          </div>
-          <div class="row input">
-            <label for="password">Password</label>
-            <input id="password" type="password" name="password" autocomplete="off"/>
-          </div>
-          <div class="row buttons">
-            <button type="submit">Login</button>
-          </div>
-        </div>
-      </form>
-    </script>
+        <!-- Load app scripts -->
+        <script src="js/input-pimp.js"></script>
+     
+        <script id="login-form-template" type="text/x-handlebars-template">
+        </script>
  
-    <script id="register-form-template" type="text/x-handlebars-template">
-      <form method="post" id="register_form" class="login">
-        <div class="info">
-        </div>
-        <div class="fields">
-          <div class="row input">
-            <label for="login" class="hidden">Login</label>
-            <input id="login" type="text" name="login" placeholder="Login"/>
-          </div>
-          <div class="row input">
-            <label for="email" class="hidden">Login</label>
-            <input id="email" type="text" name="email" placeholder="Email"/>
-          </div>
-          <div class="row input">
-            <label for="password" class="hidden">Password</label>
-            <input id="password" type="password" name="password" placeholder="Password"/>
-          </div>
-          <div class="row buttons">
-            <button type="submit">Register</button>
-          </div>
-        </div>
-      </form>
-    </script>
+        <script id="register-form-template" type="text/x-handlebars-template">
+            <form method="post" id="register_form" class="login">
+                <div class="info">
+                </div>
+                <div class="fields">
+                    <div class="row input">
+                        <label for="login" class="hidden">Login</label>
+                        <input id="login" type="text" name="login" placeholder="Login"/>
+                    </div>
+                    <div class="row input">
+                        <label for="email" class="hidden">Login</label>
+                        <input id="email" type="text" name="email" placeholder="Email"/>
+                    </div>
+                    <div class="row input">
+                        <label for="password" class="hidden">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Password"/>
+                    </div>
+                    <div class="row buttons">
+                        <button type="submit">Register</button>
+                    </div>
+                </div>
+            </form>
+        </script>
  
-  </head>
-  <body class="yui3-app">
-    <div id="top_navi"></div>
+    </head>
+    <body class="yui3-app">
+        <div id="top_navi"></div>
 
-    <div id="main_content" class="yui3-app-views">
-    </div>
+        <div id="main_content" class="yui3-app-views">
+
+            <form method="post" id="signin_form" class="login">
+                <div class="info">
+                    <h2>Welcome to twaddlr</h2>
+                    <p>Have no account yet? <a class="register-link" href="/register">Register</a> now!</p>
+                </div>
+                <div class="fields">
+                    <div class="row input">
+                        <label for="login">Login</label>
+                        <input id="login" type="text" name="login" autocomplete="off" />
+                    </div>
+                    <div class="row input">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" autocomplete="off"/>
+                    </div>
+                    <div class="row buttons">
+                        <button type="submit">Login</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
  
-    <script>
-      YUI({
-        debug: true,
-        combine: true
-      }).use('app', 'view', 'input-pimp', function(Y) {
- 
-        // Configure all views 
-        
-        /* This one won't work - because Y.HomeView is an instance already
-        Y.HomeView = new Y.View();
-        Y.HomeView.render = function() {
-          Y.log('inside HomeView');
-          return this;          
-        };*/
- 
-        // This one will work - because Y.HomeView is an class object and thus 'new Y.HomeView()' will work
-        Y.LoginView = Y.Base.create('loginView', Y.View, [], {
-          render: function() {
-            var source = Y.one('#login-form-template').getHTML();
-            //var template = Handlebars.compile(source);
-            //var html = template();
-            //console.log(source);
-            var conti = this.get('container');
-            conti.append(source);
-            //conti.one('a.register-link').on('click', function(e) {
-            //  alert('nope');
-            //});
- 
- 
- 
-            return this;
-          }
-        });
- 
-        Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
-          render: function() {
-            var source = Y.one('#register-form-template').getHTML();
-            //var template = Handlebars.compile(source);
-            //var html = template();
-            //console.log(source);
-            this.get('container').append(source);
-            return this;
-          }
-        });
- 
-        var app = new Y.App({
-          transitions: true,
-          viewContainer: '#main_content',
-          serverRouting: false, // coming soon (tm)
-          views: {
-            home: { type: 'LoginView' },
-            register: { type: 'RegisterView' } 
-          }
-        });
- 
-        app.route('/', function() {
-          this.showView('home');
-        });
- 
-        app.route('/register', function() {
-          this.showView('register');
-        })
- 
-        app.render().dispatch();
-      });
- 
-    /*
-      $(document).ready(function() {
-        //$('#signin_form input[name="login"]').blur(function(e) {
-        //  console.log('Checking if login is correct ...');
-        //});
-        $('form').submit(function(e) {
-          e.preventDefault();
-          // TODO: Do login stuff
-        });
- 
-        $('.row input').focus(function(e) {
-          $(this).prev().css('opacity', '0.0');
-        }).blur(function(e) {
-          // Show the label if there's still no value
-          if ($(this).val() == '') {
-            $(this).prev().css('opacity', '1.0');
-          }
-        });
-      });*/
-    </script>
-  </body>
+        <script>
+            $(document).ready(function() {
+                $('input').inputPimp();
+            });
+        </script>
+    </body>
 </html>
