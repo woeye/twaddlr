@@ -31,6 +31,8 @@ module.exports = function(app, client) {
       } else {
         console.log("Username available!");
         res.send("user created: " + username);
+        // get username and password
+        // hash password
         // save
       }
     })
