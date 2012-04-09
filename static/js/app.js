@@ -5,6 +5,7 @@
 	// Define the Login view
 	var LoginView = Backbone.View.extend({
 		el: '#main_content',
+		template: $('#login-form-template').html(),
 
 		initialize: function() {
 		},
@@ -15,9 +16,9 @@
 
 		render: function() {
 			//console.log(this.$el);
-
-			var tmpl = $('#login-form-template');
-			this.$el.html(Mark.up(tmpl.html(), {}));
+			this.$el.html(Mark.up(this.template, {}));
+			this.$el.find('input').inputPimp();
+			return this;
 		},
 
 		showRegisterForm: function(e) {
@@ -30,13 +31,14 @@
 
 	var RegisterView = Backbone.View.extend({
 		el: '#main_content',
+		template: $('#register-form-template').html(),
 
 		initialize: function() {
 		},
 
 		render: function() {
-			var tmpl = $('#register-form-template');
-			this.$el.html(Mark.up(tmpl.html(), {}));
+			this.$el.html(Mark.up(this.template, {}));
+			this.$el.find('input').inputPimp();
 			return this;
 		}
 	});
