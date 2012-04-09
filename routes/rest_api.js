@@ -31,6 +31,7 @@ module.exports = function(app, client) {
       } else {
         console.log("Username available!");
         res.send("user created: " + username);
+        // save
       }
     })
   });
