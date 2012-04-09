@@ -67,15 +67,18 @@
         doRegister: function(e) {
             e.preventDefault();
             //alert('not implemented yet :/');
+            var data = {
+                username: this.$el.find('#username').val(),
+                password: this.$el.find('#password').val(),
+                email: this.$el.find('#email').val()
+            };
+            //console.log(data);
 
+            // TODO: Proper error handling ;)
             $.ajax({
                 type: 'POST',
                 url: '/api/register',
-                data: {
-                    username: 'lars',
-                    password: 'mimimimimi',
-                    email: 'lars.hoss@gmail.com'
-                }
+                data: data
             }).done(function(response) {
                 console.log(response);
             });
