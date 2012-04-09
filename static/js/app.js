@@ -2,22 +2,23 @@
 
     var twaddlr = {};
 
-    // Define the Login view
+    // Define the login view
     var LoginView = Backbone.View.extend({
-        el: '#main_content',
+        className: 'login-view',
+        //el: '#login-view',
         //template: $('#login-form-template').html(),
 
         initialize: function() {
         },
 
         events: {
-            'click a.register-link': 'showRegisterForm'
+            'click a.register-link': 'showRegisterForm',
+            'submit form': 'doLogin'
         },
 
         render: function() {
-            //console.log(this.$el);
-            //this.$el.html(Mark.up(this.template, {}));
-            console.log('rendering ...');
+            console.log('render');
+            $('#main-content').empty().append(this.$el);
             this.$el.html(twaddlr.templates['login.jade']);
             this.$el.find('input').inputPimp();
             return this;
@@ -28,22 +29,30 @@
 
             console.log('showRegisterForm');
             twaddlr.router.navigate('/register', {trigger: true});
+        },
+
+        doLogin: function(e) {
+            e.preventDefault();
+            alert('not implemented yet :/');
         }
     });
 
+    // Define the register view
     var RegisterView = Backbone.View.extend({
-        el: '#main_content',
+        className: 'register-view',
+        //el: '#register-view',
        // template: $('#register-form-template').html(),
 
         initialize: function() {
         },
 
         events: {
-            'click a.login-link': 'showLoginForm'
+            'click a.login-link': 'showLoginForm',
+            'submit form': 'doRegister'
         },
 
         render: function() {
-            //this.$el.html(Mark.up(this.template, {}));
+            $('#main-content').empty().append(this.$el);
             this.$el.html(twaddlr.templates['register.jade']);
             this.$el.find('input').inputPimp();
             return this;
@@ -53,6 +62,23 @@
             e.preventDefault();
 
             twaddlr.router.navigate('/login', {trigger:true});
+        },
+
+        doRegister: function(e) {
+            e.preventDefault();
+            //alert('not implemented yet :/');
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/register',
+                data: {
+                    username: 'lars',
+                    password: 'mimimimimi',
+                    email: 'lars.hoss@gmail.com'
+                }
+            }).done(function(response) {
+                console.log(response);
+            });
         }
     });
 
@@ -65,7 +91,7 @@
 
         login: function() {
             console.log('router -> login');
-            twaddlr.appView.render();
+            new LoginView().render();
         },
 
         register: function() {
@@ -75,24 +101,32 @@
     });
 
     twaddlr.router = new AppRouter();
-    twaddlr.appView = new LoginView();
 
     // Load templates and initialize app afterwards
     twaddlr.templates = {};
-    async.forEach(
-        ['login.jade', 'register.jade'], 
-        function(file, callback) {
-            var tmpl = $.get('/views/' + file, function(txt) {
-                console.log('template <' + file + '> loaded');
-                twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
-                callback();
-            }, 'html');
-        },
-        function(err) {
-            console.log('Template loading complete!');
-            Backbone.history.start();
-            twaddlr.router.navigate('login', {trigger: true, replace: true});
-        }
-    );
+
+    function loadTemplate(file) {
+        return $.get('/views/' + file, function(txt) {
+            console.log('template <' + file + '> loaded');
+            twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
+        }, 'html');
+    }
+
+    // var ops = _.map(['login.jade', 'register.jade'], function(file) {
+    //     return $.get('/views/' + file, function(txt) {
+    //         console.log('template <' + file + '> loaded');
+    //         twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
+    //     }, 'html');
+    // });
+    // $.when.apply(null, ops).then(function() {
+
+    $.when(
+        loadTemplate('login.jade'),
+        loadTemplate('register.jade')
+    ).then(function() {
+        console.log('All templates loaded!');
+        Backbone.history.start();
+        twaddlr.router.navigate('register', {trigger: true, replace: true});
+    });
 
 })(jQuery);
