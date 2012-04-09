@@ -1,7 +1,7 @@
 About
 =====
-Twaddlr is going to be a chat server inspired by Campfire. Mostly it serves me as a learning project for node.js
-and MongoDB. 
+Twaddlr is going to be a chat server inspired by Campfire or HipChat. It serves me as a learning project for node.js, 
+MongoDB, Backbone.js and other modern technologies. Maybe you find the code helpful as well :)
 
 Getting started
 ===============
