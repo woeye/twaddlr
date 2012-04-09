@@ -1,0 +1,18 @@
+form(method='post', id='register_form')
+    .info
+        h2 Sign up for twaddlr
+        p Already have an account? Please <a href="#" class="login-link">log in</a>!
+
+    .fields
+        .row.input
+            label Email
+            input#email(type='text', name='email')
+        .row.input
+            label Username
+            input#username(type='text', name='username')
+        .row.input
+            label Password
+            input#password(type='password', name='password')
+
+        .row.buttons
+            button(type='submit') Create Account

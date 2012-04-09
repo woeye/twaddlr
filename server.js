@@ -36,8 +36,9 @@ db.open(function(err, client) {
     app.use(app.router);
     //app.use(express.compiler({ src: staticDir, enable: ['less'] }));
     app.use(express.static(staticDir));
-    app.set('views', viewsDir);
-    app.set('view engine', 'jade');
+    
+    //app.set('views', viewsDir);
+    //app.set('view engine', 'jade');
 
     
     //app.configure('development', function() {
@@ -45,18 +46,8 @@ db.open(function(err, client) {
     //  app.use(express.static(staticDir));
     //});
 
-    // Install a custom error handler for LESS errors
-    // app.error(function(err, req, res, next) {
-    //   if (err.name && err.name == 'ParseError') {
-    //     console.log(err);
-    //     next();
-    //   } else {
-    //     next(err, req, res);
-    //   }
-    // });
-
     // Setup routes
-    require('./routes/site')(app);
+    //require('./routes/site')(app);
     require('./routes/rest_api')(app, client);
 
     // Initialize Socket.IO
