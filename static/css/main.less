@@ -93,6 +93,7 @@ form {
     margin: 0 auto;
     //width: 500px;
     text-align: left;
+    //background-color: #fff;
 
     .info {
         float: left;
@@ -102,7 +103,6 @@ form {
     .fields {
         float: left;
         padding-left: 50px;
-        border-left: 1px solid #ccc;
     }
 
     .row {
@@ -224,10 +224,10 @@ form span.error > input[type="text"], form span.error > input[type="text"] {
     height: 40px;
     line-height: 40px;
     padding: 0px 20px;
-    background-color: #444;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #111;
     z-index: 999;
-    .box-shadow(0 0 10px rgba(0,0,0,0.3));
+    .linear-gradient-vertical(#333, darken(#333, 10%));
+    .box-shadow(0 1px 7px rgba(0,0,0,0.7));
 
     .tools {
         float: right;

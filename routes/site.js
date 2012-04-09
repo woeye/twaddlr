@@ -14,17 +14,12 @@ module.exports = function(app) {
   }
 
   // Configure our routes
-  /*app.get('/', function(req, res) {
-    console.log("got request");
+  app.get('/', function(req, res) {
     res.render('index.jade', {});
   });
 
   app.get('/register', function(req, res) {
     res.render('register.jade');
   });
-
-  app.get('/login', function(req, res) {
-    res.render('login.jade');
-  });*/
 
 };

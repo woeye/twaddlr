@@ -6,7 +6,8 @@
   "version": "0.1.0",
   "dependencies": {
     "mongodb": "",
-    "express": "",
+    "express": "https://github.com/visionmedia/express/tarball/master",
+    "jade": "",
     "socket.io": ""
   }
 }

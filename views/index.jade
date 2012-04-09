@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+
+    form(method='post', id='signin_form', class='login')
+        .info
+            h2 Welcome back to twaddlr!
+            p Have no account yet? <a href="/register">Register</a> now!
+
+        .fields
+            .row.input
+                label Login
+                input#login(type='text', name='login')
+            .row.input
+                label Password
+                input#password(type='password', name='password')
+
+            .row.buttons
+                button(type='submit') Login
+
+
+block footer_scripts
+    script
+        $(document).ready(function() {
+            $('input').inputPimp();
+        });
