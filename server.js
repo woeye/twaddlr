@@ -21,7 +21,7 @@ db.open(function(err, client) {
 
     // Create our server
     var app = express();
-    var staticDir = __dirname + '/static';
+    var publicDir = __dirname + '/public';
     var viewsDir = __dirname + '/views';
 
     // Add mime-type for LESS files
@@ -34,8 +34,8 @@ db.open(function(err, client) {
     app.use(express.session());
     //app.use(express.logger());
     app.use(app.router);
-    //app.use(express.compiler({ src: staticDir, enable: ['less'] }));
-    app.use(express.static(staticDir));
+    //app.use(express.compiler({ src: publicDir, enable: ['less'] }));
+    app.use(express.static(publicDir));
     
     //app.set('views', viewsDir);
     //app.set('view engine', 'jade');
@@ -43,7 +43,7 @@ db.open(function(err, client) {
     
     //app.configure('development', function() {
     //  //app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-    //  app.use(express.static(staticDir));
+    //  app.use(express.static(publicDir));
     //});
 
     // Setup routes
