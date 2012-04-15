@@ -1,86 +1,21 @@
+// Our global app object
+var twaddlr = {};
+
 (function(twaddlr) {
 
-    // Define the login view
-    var LoginView = Backbone.View.extend({
-        className: 'login-view',
-        //el: '#login-view',
-        //template: $('#login-form-template').html(),
+    // Init
+    twaddlr.views = {};
+    twaddlr.templates = {};
 
-        initialize: function() {
-        },
+    // Inject Backbone Events into twaddlr
+    _.extend(twaddlr, Backbone.Events);
 
-        events: {
-            'click a': 'showRegisterForm',
-            'submit form': 'doLogin'
-        },
-
-        render: function() {
-            console.log('render');
-            $('#main-content').empty().append(this.$el);
-            this.$el.html(twaddlr.templates['login-template']);
-            this.$el.find('input').inputPimp();
-            return this;
-        },
-
-        showRegisterForm: function(e) {
-            e.preventDefault(); // We must call this or the browser URL will be incorrect
-
-            console.log('showRegisterForm');
-            twaddlr.router.navigate('/register', {trigger: true});
-        },
-
-        doLogin: function(e) {
-            e.preventDefault();
-            alert('not implemented yet :/');
-        }
+    twaddlr.on('twaddlr:showLoginView', function() {
+        twaddlr.router.navigate('/login', {trigger:true});
     });
 
-    // Define the register view
-    var RegisterView = Backbone.View.extend({
-        className: 'register-view',
-        //el: '#register-view',
-       // template: $('#register-form-template').html(),
-
-        initialize: function() {
-        },
-
-        events: {
-            'click a': 'showLoginForm',
-            'submit form': 'doRegister'
-        },
-
-        render: function() {
-            $('#main-content').empty().append(this.$el);
-            this.$el.html(twaddlr.templates['register-template']);
-            this.$el.find('input').inputPimp();
-            return this;
-        },
-
-        showLoginForm: function(e) {
-            e.preventDefault();
-
-            twaddlr.router.navigate('/login', {trigger:true});
-        },
-
-        doRegister: function(e) {
-            e.preventDefault();
-            //alert('not implemented yet :/');
-            var data = {
-                username: this.$el.find('#username').val(),
-                password: this.$el.find('#password').val(),
-                email: this.$el.find('#email').val()
-            };
-            //console.log(data);
-
-            // TODO: Proper error handling ;)
-            $.ajax({
-                type: 'POST',
-                url: '/api/register',
-                data: data
-            }).done(function(response) {
-                console.log(response);
-            });
-        }
+    twaddlr.on('twaddlr:showRegisterView', function() {
+        twaddlr.router.navigate('/register', {trigger:true});
     });
 
     // Define the main router
@@ -92,28 +27,30 @@
 
         login: function() {
             console.log('router -> login');
-            new LoginView().render();
+            new twaddlr.views.LoginView().render();
         },
 
         register: function() {
             console.log('router -> register');
-            new RegisterView().render();
+            new twaddlr.views.RegisterView().render();
         }
     });
+    twaddlr.router = new AppRouter();
 
-    twaddlr.run = function() {
-        // Initialize templates first and initialize app afterwards
-        twaddlr.templates = {};
+    twaddlr.start = function() {
+        // Precompile the handlebar templates
         $('script[type="text/x-handlebars-template"]').each(function() {
-            //console.log($(this).attr('id'));
-            //console.log($(this).html());
             twaddlr.templates[$(this).attr('id')] = Handlebars.compile($(this).html());
         });
-        console.log('All templates initialized!');
+        console.log('Compiles all templates ...');
 
-        twaddlr.router = new AppRouter();
         Backbone.history.start();
         twaddlr.router.navigate('register', {trigger: true, replace: true});
     };
 
 })(twaddlr);
+
+// One the document is ready start the app
+$(document).ready(function() {
+    twaddlr.start();
+});
