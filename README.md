@@ -3,6 +3,18 @@ About
 Twaddlr is going to be a chat server inspired by Campfire or HipChat. It serves me as a learning project for node.js, 
 MongoDB, Backbone.js and other modern technologies. Maybe you find the code helpful as well :)
 
+Technology Stack
+================
+Twaddlr is currently build on 
+ 
+ * node.js
+ * express.js
+ * connect
+ * zepto (lightweight jQuery alternative)
+ * underscore.js (required by backbone.js)
+ * backbone.js
+ * handlebars templating engine 
+
 Getting started
 ===============
 At the moment Twaddlr uses MongoDB for storing both configurational and user data. It might be a good idea to 
