@@ -114,17 +114,17 @@ form {
             margin-bottom: 0;
         }
 
-/*    &.input {
-            width: 244px;
-            background-color: #fff;
-            .rounded-corners(4px);      
-        }*/
+        &.focus {
+            label { color: #ccc; }
+        }
     }
 
     label {
         position: absolute;
-        left: 10px;
-        top: 6px;
+        left: 3px;
+        top: 0;
+        padding: 4px 7px;
+
         color: #999;
         z-index: 1;
         font-weight: normal;
@@ -135,10 +135,6 @@ form {
 
         &.hidden {
             display: none;
-        }
-
-        &.focus {
-            color: #ccc;
         }
     }
 
