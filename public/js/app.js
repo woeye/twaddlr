@@ -1,135 +1,130 @@
-(function($) {
+YUI().use('base', 'app', 'handlebars', 'fancy-label', function(Y) {
 
-    var twaddlr = {};
+    ///////////////////////////////////////////////////////////////////////////////
+    // Define views
 
-    // Define the login view
-    var LoginView = Backbone.View.extend({
-        className: 'login-view',
-        //el: '#login-view',
-        //template: $('#login-form-template').html(),
-
-        initialize: function() {
-        },
+    var RegisterView = Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
+        // Fetch handlebars template from page
+        template: Y.Handlebars.compile(Y.one('#register-template').getContent()),
 
         events: {
-            'click a.register-link': 'showRegisterForm',
-            'submit form': 'doLogin'
+            'a': {
+                click: 'showLoginView'
+            }
         },
+
+        initializer: function() {},
 
         render: function() {
-            console.log('render');
-            $('#main-content').empty().append(this.$el);
-            this.$el.html(twaddlr.templates['login.jade']);
-            this.$el.find('input').inputPimp();
-            return this;
+            this.get('container').setContent(this.template());
+            this.get('container').all('input').plug(Y.FancyLabelPlugin);
         },
 
-        showRegisterForm: function(e) {
-            e.preventDefault(); // We must call this or the browser URL will be incorrect
-
-            console.log('showRegisterForm');
-            twaddlr.router.navigate('/register', {trigger: true});
-        },
-
-        doLogin: function(e) {
+        showLoginView: function(e) {
             e.preventDefault();
-            alert('not implemented yet :/');
+            this.fire('showLoginView');
+        }
+    }, {
+        ATTRS: {
+            container: {
+                valueFn: function() {
+                    return Y.Node.create('<div class="register-view"/>');
+                }
+            }
         }
     });
 
-    // Define the register view
-    var RegisterView = Backbone.View.extend({
-        className: 'register-view',
-        //el: '#register-view',
-       // template: $('#register-form-template').html(),
-
-        initialize: function() {
-        },
+    var LoginView = Y.LoginView = Y.Base.create('loginView', Y.View, [], {
+        // Fetch handlebars template from page
+        template: Y.Handlebars.compile(Y.one('#login-template').getContent()),
 
         events: {
-            'click a.login-link': 'showLoginForm',
-            'submit form': 'doRegister'
+            'a': {
+                click: 'showRegisterView'
+            }
         },
+
+        initializer: function() {},
 
         render: function() {
-            $('#main-content').empty().append(this.$el);
-            this.$el.html(twaddlr.templates['register.jade']);
-            this.$el.find('input').inputPimp();
-            return this;
+            this.get('container').setContent(this.template());
+            this.get('container').all('input').plug(Y.FancyLabelPlugin);
         },
 
-        showLoginForm: function(e) {
+        showRegisterView: function(e) {
             e.preventDefault();
+            this.fire('showRegisterView');
+        }        
+    }, {
+        ATTRS: {
+            container: {
+                valueFn: function() {
+                    return Y.Node.create('<div class="login-view"/>');
+                }
+            }
+        }
+    });
 
-            twaddlr.router.navigate('/login', {trigger:true});
+    ///////////////////////////////////////////////////////////////////////////////
+    // Set up the app
+
+    var TwaddlrApp = Y.TwaddlrApp = Y.Base.create('twaddlrApp', Y.App, [], {
+        // Our views
+        views: {
+            register: {type: 'RegisterView'},
+            login: {type: 'LoginView'}
         },
 
-        doRegister: function(e) {
-            e.preventDefault();
-            //alert('not implemented yet :/');
-            var data = {
-                username: this.$el.find('#username').val(),
-                password: this.$el.find('#password').val(),
-                email: this.$el.find('#email').val()
-            };
-            //console.log(data);
+        initializer: function() {
+            console.log('Starting twaddlr ... :)');
 
-            // TODO: Proper error handling ;)
-            $.ajax({
-                type: 'POST',
-                url: '/api/register',
-                data: data
-            }).done(function(response) {
-                console.log(response);
+            // Set up app events
+            var _this = this;
+            this.on('*:showLoginView', function(e) {
+                console.log(e);
+                _this.navigate('/login');
             });
+            this.on('*:showRegisterView', function(e) {
+                _this.navigate('/');
+            });
+
+            this.once('ready', function(e) {
+                // Remove the loading info
+                Y.one('#main-content').empty();
+                this.navigate('/login');
+            });
+        },
+
+        showRegisterView: function() {
+            this.showView('register');
+        },
+
+        showLoginView: function() {
+            console.log('inside showLoginView');
+            this.showView('login');
+        }
+
+    }, {
+        ATTRS: {
+            // Disable server routing
+            serverRouting: {
+                value: false
+            },
+
+            viewContainer: {
+                value: '#main-content'
+            },
+
+            // Our routes
+            routes: {
+                value: [
+                    {path: '/', callback: 'showRegisterView'},
+                    {path: '/login', callback: 'showLoginView'},
+                ]
+            }
         }
     });
 
-    // Define the main router
-    var AppRouter = Backbone.Router.extend({
-        routes: {
-            "login": "login",
-            "register": "register"
-        },
 
-        login: function() {
-            console.log('router -> login');
-            new LoginView().render();
-        },
-
-        register: function() {
-            console.log('router -> register');
-            new RegisterView().render();
-        }
-    });
-
-    twaddlr.router = new AppRouter();
-
-    // Load templates and initialize app afterwards
-    twaddlr.templates = {};
-
-    function loadTemplate(file) {
-        return $.get('/views/' + file, function(txt) {
-            console.log('template <' + file + '> loaded');
-            twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
-        }, 'html');
-    }
-
-    // var ops = _.map(['login.jade', 'register.jade'], function(file) {
-    //     return $.get('/views/' + file, function(txt) {
-    //         console.log('template <' + file + '> loaded');
-    //         twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
-    //     }, 'html');
-    // });
-    // $.when.apply(null, ops).then(function() {
-
-    $.when(
-        loadTemplate('login.jade'),
-        loadTemplate('register.jade')
-    ).then(function() {
-        console.log('All templates loaded!');
-        Backbone.history.start();
-        twaddlr.router.navigate('register', {trigger: true, replace: true});
-    });
-
-})(jQuery);
+    var app = new TwaddlrApp();
+});
