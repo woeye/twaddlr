@@ -1,4 +1,4 @@
-(function($) {
+(function() {
 	$.fn.inputPimp = function() {
 		this.focusin(function(e) {
 			$(this).prev().toggleClass('focus');
@@ -7,7 +7,6 @@
 			$(this).prev().toggleClass('focus');
 		});
 		this.keydown(function(e) {
-			console.log('keypress');
 			// If there is some text do hide the label
 			var _this = $(this);
 			setTimeout(function() {
@@ -15,4 +14,4 @@
 			}, 0);
 		});
 	};
-})(jQuery);
+})();

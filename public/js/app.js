@@ -1,6 +1,4 @@
-(function($) {
-
-    var twaddlr = {};
+(function(twaddlr) {
 
     // Define the login view
     var LoginView = Backbone.View.extend({
@@ -12,14 +10,14 @@
         },
 
         events: {
-            'click a.register-link': 'showRegisterForm',
+            'click a': 'showRegisterForm',
             'submit form': 'doLogin'
         },
 
         render: function() {
             console.log('render');
             $('#main-content').empty().append(this.$el);
-            this.$el.html(twaddlr.templates['login.jade']);
+            this.$el.html(twaddlr.templates['login-template']);
             this.$el.find('input').inputPimp();
             return this;
         },
@@ -47,13 +45,13 @@
         },
 
         events: {
-            'click a.login-link': 'showLoginForm',
+            'click a': 'showLoginForm',
             'submit form': 'doRegister'
         },
 
         render: function() {
             $('#main-content').empty().append(this.$el);
-            this.$el.html(twaddlr.templates['register.jade']);
+            this.$el.html(twaddlr.templates['register-template']);
             this.$el.find('input').inputPimp();
             return this;
         },
@@ -103,33 +101,19 @@
         }
     });
 
-    twaddlr.router = new AppRouter();
+    twaddlr.run = function() {
+        // Initialize templates first and initialize app afterwards
+        twaddlr.templates = {};
+        $('script[type="text/x-handlebars-template"]').each(function() {
+            //console.log($(this).attr('id'));
+            //console.log($(this).html());
+            twaddlr.templates[$(this).attr('id')] = Handlebars.compile($(this).html());
+        });
+        console.log('All templates initialized!');
 
-    // Load templates and initialize app afterwards
-    twaddlr.templates = {};
-
-    function loadTemplate(file) {
-        return $.get('/views/' + file, function(txt) {
-            console.log('template <' + file + '> loaded');
-            twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
-        }, 'html');
-    }
-
-    // var ops = _.map(['login.jade', 'register.jade'], function(file) {
-    //     return $.get('/views/' + file, function(txt) {
-    //         console.log('template <' + file + '> loaded');
-    //         twaddlr.templates[file] = jade.compile(txt, {compileDebug: false});
-    //     }, 'html');
-    // });
-    // $.when.apply(null, ops).then(function() {
-
-    $.when(
-        loadTemplate('login.jade'),
-        loadTemplate('register.jade')
-    ).then(function() {
-        console.log('All templates loaded!');
+        twaddlr.router = new AppRouter();
         Backbone.history.start();
         twaddlr.router.navigate('register', {trigger: true, replace: true});
-    });
+    };
 
-})(jQuery);
+})(twaddlr);
