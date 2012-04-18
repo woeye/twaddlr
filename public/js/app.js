@@ -3,15 +3,6 @@ var twaddlr = {};
 
 (function(twaddlr) {
 
-    Backbone.View.prototype.show = function() {
-        //$('#main-content').empty().append(this.$el);
-    };
-
-    Backbone.View.prototype.hide = function() {
-        //$('#main-content').empty();
-        //this.undelegateEvents();
-    }
-
     // Init
     twaddlr.views = {};
     twaddlr.templates = {};
@@ -19,17 +10,10 @@ var twaddlr = {};
 
     function showView(view) {
         if (twaddlr.currentView) {
-            $('#main-content').animate({
-                opacity: 0.0
-            }, 100, 'ease-out', function() {
-                console.log('ease-out done');
+            $('#main-content').css3Animate('fadeOut', function() {
                 $('#main-content').empty().append(view.render().$el);
                 twaddlr.currentView = view;
-                $('#main-content').animate({
-                    opacity: 1.0
-                }, 100, 'ease-in', function() {
-                    console.log('ease-in done');
-                });
+                $('#main-content').css3Animate('fadeIn');
             });
         } else {
             $('#main-content').empty().append(view.render().$el);
@@ -72,7 +56,7 @@ var twaddlr = {};
         $('script[type="text/x-handlebars-template"]').each(function() {
             twaddlr.templates[$(this).attr('id')] = Handlebars.compile($(this).html());
         });
-        console.log('Compiles all templates ...');
+        console.log('Compiled all templates ...');
 
         Backbone.history.start();
         twaddlr.router.navigate('register', {trigger: true, replace: true});
