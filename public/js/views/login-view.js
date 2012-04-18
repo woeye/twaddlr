@@ -15,7 +15,6 @@
 
         render: function() {
             console.log('render');
-            $('#main-content').empty().append(this.$el);
             this.$el.html(twaddlr.templates['login-template']);
             this.$el.find('input').inputPimp();
             return this;

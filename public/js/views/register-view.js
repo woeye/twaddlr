@@ -16,7 +16,6 @@
         },
 
         render: function() {
-            $('#main-content').empty().append(this.$el);
             this.$el.html(twaddlr.templates['register-template']);
             this.$el.find('input').inputPimp();
             return this;
@@ -29,6 +28,12 @@
 
         doRegister: function(e) {
             e.preventDefault();
+            // this.$el.animate({
+            //     opacity: 0.0
+            // }, 100, 'linear', function() {
+            //     console.log('anim done');
+            // });
+
             //alert('not implemented yet :/');
             var data = {
                 username: this.$el.find('#username').val(),
@@ -38,13 +43,13 @@
             //console.log(data);
 
             // TODO: Proper error handling ;)
-            $.ajax({
-                type: 'POST',
-                url: '/api/register',
-                data: data
-            }).done(function(response) {
-                console.log(response);
-            });
+            //$.ajax({
+            //    type: 'POST',
+            //    url: '/api/register',
+            //    data: data
+            //}).done(function(response) {
+            //    console.log(response);
+            //});
         }
     });
 

@@ -3,9 +3,39 @@ var twaddlr = {};
 
 (function(twaddlr) {
 
+    Backbone.View.prototype.show = function() {
+        //$('#main-content').empty().append(this.$el);
+    };
+
+    Backbone.View.prototype.hide = function() {
+        //$('#main-content').empty();
+        //this.undelegateEvents();
+    }
+
     // Init
     twaddlr.views = {};
     twaddlr.templates = {};
+    twaddlr.currentView = false;
+
+    function showView(view) {
+        if (twaddlr.currentView) {
+            $('#main-content').animate({
+                opacity: 0.0
+            }, 100, 'ease-out', function() {
+                console.log('ease-out done');
+                $('#main-content').empty().append(view.render().$el);
+                twaddlr.currentView = view;
+                $('#main-content').animate({
+                    opacity: 1.0
+                }, 100, 'ease-in', function() {
+                    console.log('ease-in done');
+                });
+            });
+        } else {
+            $('#main-content').empty().append(view.render().$el);
+            twaddlr.currentView = view;
+        }
+    }
 
     // Inject Backbone Events into twaddlr
     _.extend(twaddlr, Backbone.Events);
@@ -27,12 +57,12 @@ var twaddlr = {};
 
         login: function() {
             console.log('router -> login');
-            new twaddlr.views.LoginView().render();
+            showView(new twaddlr.views.LoginView());
         },
 
         register: function() {
             console.log('router -> register');
-            new twaddlr.views.RegisterView().render();
+            showView(new twaddlr.views.RegisterView());
         }
     });
     twaddlr.router = new AppRouter();

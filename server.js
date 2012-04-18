@@ -10,14 +10,14 @@ var PORT = 3000;
 
 // First try to connect to MongoDB. Without MongoDB there's
 // no need to continue ...
-var db = new mongodb.Db('twaddle', new mongodb.Server('127.0.0.1', 27017, {}));
-db.open(function(err, client) {
-    if (err) {
-        console.log("Couldn't connect to MongoDB. Aborting!");
-        throw err;
-    }
+//var db = new mongodb.Db('twaddle', new mongodb.Server('127.0.0.1', 27017, {}));
+//db.open(function(err, client) {
+//    if (err) {
+//        console.log("Couldn't connect to MongoDB. Aborting!");
+ //       throw err;
+ //   }
 
-    console.log("Connected to MongoDB! Initializing server ...");
+ //   console.log("Connected to MongoDB! Initializing server ...");
 
     // Create our server
     var app = express();
@@ -48,7 +48,7 @@ db.open(function(err, client) {
 
     // Setup routes
     //require('./routes/site')(app);
-    require('./routes/rest_api')(app, client);
+//    require('./routes/rest_api')(app, client);
 
     // Initialize Socket.IO
     require('./lib/com_hub')(app);
@@ -56,5 +56,5 @@ db.open(function(err, client) {
     // Ok, let's listen on port PORT
     console.log("Starting server on port " + PORT);
     app.listen(PORT);
-});
+//});
 
