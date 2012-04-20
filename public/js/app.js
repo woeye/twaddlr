@@ -8,13 +8,33 @@ var twaddlr = {};
     twaddlr.templates = {};
     twaddlr.currentView = false;
 
+    /*Backbone.View.prototype.hide = function(callback) {
+        console.log(this);
+        this.$el.css3Animate('fadeOut', callback);
+    };
+
+    Backbone.View.prototype.show = function(callback) {
+        this.$el.css3Animate('fadeIn', callback);
+    }*/
+
     function showView(view) {
-        if (twaddlr.currentView) {
-            $('#main-content').css3Animate('fadeOut', function() {
+        /*if (twaddlr.currentView) {
+            twaddlr.currentView.hide(function() {
                 $('#main-content').empty().append(view.render().$el);
                 twaddlr.currentView = view;
-                $('#main-content').css3Animate('fadeIn');
+                twaddlr.currentView.show();                
             });
+        } else {
+            $('#main-content').empty().append(view.render().$el);
+            twaddlr.currentView = view;
+        }*/
+
+        if (twaddlr.currentView) {
+           $('#main-content').css3Animate('fadeOut', function() {
+               $('#main-content').empty().append(view.render().$el);
+               twaddlr.currentView = view;
+               $('#main-content').css3Animate('fadeIn');
+           });
         } else {
             $('#main-content').empty().append(view.render().$el);
             twaddlr.currentView = view;
