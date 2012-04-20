@@ -27,7 +27,31 @@
 
         doLogin: function(e) {
             e.preventDefault();
-            alert('not implemented yet :/');
+
+            var data = {
+                username: this.$el.find('#username').val(),
+                password: this.$el.find('#password').val(),
+            };
+            //console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/login',
+                data: data
+            }).done(function(res) {
+                console.log('Server responded', res);
+                twaddlr.token = res; // remeber the token
+                twaddlr.trigger('twaddlr:showChatView');
+            });
+
+            // TODO: Proper error handling ;)
+            //$.ajax({
+            //    type: 'POST',
+            //    url: '/api/register',
+            //    data: data
+            //}).done(function(response) {
+            //    console.log(response);
+            //});
         }
     });
 

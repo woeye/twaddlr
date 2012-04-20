@@ -36,6 +36,8 @@ var PORT = 3000;
     app.use(app.router);
     //app.use(express.compiler({ src: publicDir, enable: ['less'] }));
     app.use(express.static(publicDir));
+
+    //app.use(express.basicAuth)
     
     //app.set('views', viewsDir);
     //app.set('view engine', 'jade');
@@ -48,7 +50,7 @@ var PORT = 3000;
 
     // Setup routes
     //require('./routes/site')(app);
-//    require('./routes/rest_api')(app, client);
+    require('./routes/rest_api')(app, null);
 
     // Initialize Socket.IO
     require('./lib/com_hub')(app);

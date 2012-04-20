@@ -1,7 +1,5 @@
 (function(twaddlr) {
 
-    console.log(twaddlr);
-
     twaddlr.views.RegisterView = Backbone.View.extend({
         className: 'register-view',
         //el: '#register-view',

@@ -52,11 +52,16 @@ var twaddlr = {};
         twaddlr.router.navigate('/register', {trigger:true});
     });
 
+    twaddlr.on('twaddlr:showChatView', function() {
+        twaddlr.router.navigate('/chat', {trigger:true});
+    });
+
     // Define the main router
     var AppRouter = Backbone.Router.extend({
         routes: {
             "login": "login",
-            "register": "register"
+            "register": "register",
+            "chat": "chat"
         },
 
         login: function() {
@@ -67,6 +72,11 @@ var twaddlr = {};
         register: function() {
             console.log('router -> register');
             showView(new twaddlr.views.RegisterView());
+        },
+
+        chat: function() {
+            console.log('router -> chat');
+            showView(new twaddlr.views.ChatView());
         }
     });
     twaddlr.router = new AppRouter();
