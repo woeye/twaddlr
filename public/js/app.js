@@ -41,21 +41,6 @@ var twaddlr = {};
         }
     }
 
-    // Inject Backbone Events into twaddlr
-    _.extend(twaddlr, Backbone.Events);
-
-    twaddlr.on('twaddlr:showLoginView', function() {
-        twaddlr.router.navigate('/login', {trigger:true});
-    });
-
-    twaddlr.on('twaddlr:showRegisterView', function() {
-        twaddlr.router.navigate('/register', {trigger:true});
-    });
-
-    twaddlr.on('twaddlr:showChatView', function() {
-        twaddlr.router.navigate('/chat', {trigger:true});
-    });
-
     // Define the main router
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -81,6 +66,22 @@ var twaddlr = {};
     });
     twaddlr.router = new AppRouter();
 
+    // Inject Backbone Events into twaddlr
+    _.extend(twaddlr, Backbone.Events);
+
+    twaddlr.on('twaddlr:showLoginView', function() {
+        twaddlr.router.navigate('/login', {trigger:true});
+    });
+
+    twaddlr.on('twaddlr:showRegisterView', function() {
+        twaddlr.router.navigate('/register', {trigger:true});
+    });
+
+    twaddlr.on('twaddlr:showChatView', function() {
+        twaddlr.router.navigate('/chat', {trigger:true});
+    });
+
+
     twaddlr.start = function() {
         // Precompile the handlebar templates
         $('script[type="text/x-handlebars-template"]').each(function() {
@@ -88,8 +89,14 @@ var twaddlr = {};
         });
         console.log('Compiled all templates ...');
 
-        Backbone.history.start();
-        twaddlr.router.navigate('register', {trigger: true, replace: true});
+        // Establish a socket.io connection ...
+        console.log('Connecting to server ...');
+        var socket = twaddlr.socket = io.connect('http://localhost');
+        socket.on('connected', function(data) {
+            console.log('connected!');
+            Backbone.history.start();
+            twaddlr.router.navigate('register', {trigger: true, replace: true});
+        });
     };
 
 })(twaddlr);

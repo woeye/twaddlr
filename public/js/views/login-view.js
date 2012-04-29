@@ -34,7 +34,7 @@
             };
             //console.log(data);
 
-            $.ajax({
+            /*$.ajax({
                 type: 'POST',
                 url: '/api/login',
                 data: data
@@ -42,7 +42,9 @@
                 console.log('Server responded', res);
                 twaddlr.token = res; // remeber the token
                 twaddlr.trigger('twaddlr:showChatView');
-            });
+            });*/
+
+            
 
             // TODO: Proper error handling ;)
             //$.ajax({

@@ -3,8 +3,7 @@
  */
 
 var util = require('util'),
-        express = require('express'),
-        mongodb = require('mongodb');
+    express = require('express');
 
 var PORT = 3000;
 
@@ -50,13 +49,15 @@ var PORT = 3000;
 
     // Setup routes
     //require('./routes/site')(app);
-    require('./routes/rest_api')(app, null);
-
-    // Initialize Socket.IO
-    require('./lib/com_hub')(app);
+    //require('./routes/rest_api')(app, null);
 
     // Ok, let's listen on port PORT
     console.log("Starting server on port " + PORT);
-    app.listen(PORT);
+    var server = app.listen(PORT);
+
+    // Initialize socket.io subsystem
+    require('./lib/com_hub')(server);
+
+
 //});
 
