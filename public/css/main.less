@@ -319,43 +319,73 @@ form span.error > input[type="text"], form span.error > input[type="text"] {
 }
 
 // ============================================================================
-//   #message-view
+//   #chat-view
 // ============================================================================
 
-#message-view {
+.chat-view {
     position: absolute;
     top: 80px;
     left: 50px;
     right: 300px;
     bottom: 100px;
-    background-color: #fff;
-    .box-shadow(0 0 7px rgba(0,0,0,0.3));
 
-    ul {
-        list-style: none;
 
-        li {
-            color: #666;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
+    .msg-view {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 50px;
+        background-color: #fff;
+        .box-shadow(0 0 7px rgba(0,0,0,0.3));
 
-            .user {
-                float: left;
-                display: block;
-                width: 100px;
-                padding: 7px 15px;
-                text-align: right;
-            }
+        ul {
+            list-style: none;
 
-            .message {
-                display: block;
-                margin-left: 130px;
-                padding: 7px 15px;
-                border-left: 1px solid #eee;
+            li {
+                color: #666;
+                background-color: #fff;
+                border-bottom: 1px solid #eee;
+
+                .user {
+                    float: left;
+                    display: block;
+                    width: 100px;
+                    padding: 7px 15px;
+                    text-align: right;
+                }
+
+                .message {
+                    display: block;
+                    margin-left: 130px;
+                    padding: 7px 15px;
+                    border-left: 1px solid #eee;
+                }
             }
         }
     }
+
+    .user-input {
+        position: absolute;
+        height: 40px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: left;
+
+        input {
+            width: 500px;
+            font-size: 14px;
+            padding: 5px 7px;
+            .box-shadow(0 0 7px rgba(0,0,0,0.3));
+        }
+
+        button {
+            
+        }
+    }
 }
+
 
 
 // ============================================================================

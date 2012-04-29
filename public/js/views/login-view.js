@@ -29,10 +29,10 @@
             e.preventDefault();
 
             var data = {
-                username: this.$el.find('#username').val(),
+                   login: this.$el.find('#login').val(),
                 password: this.$el.find('#password').val(),
             };
-            //console.log(data);
+            console.log(data);
 
             /*$.ajax({
                 type: 'POST',
@@ -44,16 +44,14 @@
                 twaddlr.trigger('twaddlr:showChatView');
             });*/
 
-            
+            twaddlr.socket.emit('login', data);
+            twaddlr.socket.on('login:done', function(data) {
+                console.log('login done!');
+                twaddlr.trigger('twaddlr:showChatView');
+            });          
 
-            // TODO: Proper error handling ;)
-            //$.ajax({
-            //    type: 'POST',
-            //    url: '/api/register',
-            //    data: data
-            //}).done(function(response) {
-            //    console.log(response);
-            //});
+            // TODO: error handling
+
         }
     });
 

@@ -95,7 +95,7 @@ var twaddlr = {};
         socket.on('connected', function(data) {
             console.log('connected!');
             Backbone.history.start();
-            twaddlr.router.navigate('register', {trigger: true, replace: true});
+            //twaddlr.router.navigate('register', {trigger: true, replace: true});
         });
     };
 
