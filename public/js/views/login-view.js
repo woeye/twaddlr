@@ -30,7 +30,7 @@
 
             var data = {
                    login: this.$el.find('#login').val(),
-                password: this.$el.find('#password').val(),
+                password: this.$el.find('#password').val()
             };
             console.log(data);
 

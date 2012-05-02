@@ -34,10 +34,21 @@
 
             //alert('not implemented yet :/');
             var data = {
-                username: this.$el.find('#username').val(),
+                login: this.$el.find('#login').val(),
                 password: this.$el.find('#password').val(),
                 email: this.$el.find('#email').val()
             };
+            console.log(data);
+
+            twaddlr.socket.once('registration:registered', function() {
+                console.log('it worked!');
+            });
+            twaddlr.socket.once('registration:error', function(err) {
+                console.log('it failed :(', err);
+            });
+
+            twaddlr.socket.emit('registration:register', data);
+
             //console.log(data);
 
             // TODO: Proper error handling ;)
