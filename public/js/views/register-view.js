@@ -15,7 +15,7 @@
 
         render: function() {
             this.$el.html(twaddlr.templates['register-template']);
-            this.$el.find('input').inputPimp();
+            //this.$el.find('input').inputPimp();
             return this;
         },
 
