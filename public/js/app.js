@@ -44,7 +44,7 @@ var twaddlr = {};
     // Define the main router
     var AppRouter = Backbone.Router.extend({
         routes: {
-            "login": "login",
+            "": "login",
             "register": "register",
             "chat": "chat"
         },
@@ -70,7 +70,7 @@ var twaddlr = {};
     _.extend(twaddlr, Backbone.Events);
 
     twaddlr.on('twaddlr:showLoginView', function() {
-        twaddlr.router.navigate('/login', {trigger:true});
+        twaddlr.router.navigate('/', {trigger:true});
     });
 
     twaddlr.on('twaddlr:showRegisterView', function() {
