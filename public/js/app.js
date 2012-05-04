@@ -8,36 +8,24 @@ var twaddlr = {};
     twaddlr.templates = {};
     twaddlr.currentView = false;
 
-    /*Backbone.View.prototype.hide = function(callback) {
-        console.log(this);
-        this.$el.css3Animate('fadeOut', callback);
-    };
-
-    Backbone.View.prototype.show = function(callback) {
-        this.$el.css3Animate('fadeIn', callback);
-    }*/
+    // Extend Backbone.View
+    Backbone.View.prototype.hide = function(callback) {}
+    Backbone.View.prototype.show = function(callback) {}
 
     function showView(view) {
-        /*if (twaddlr.currentView) {
-            twaddlr.currentView.hide(function() {
+        if (twaddlr.currentView) {
+            $('#main-content').css3Animate('fadeOut', function() {
+                twaddlr.currentView.hide();
                 $('#main-content').empty().append(view.render().$el);
                 twaddlr.currentView = view;
-                twaddlr.currentView.show();                
+                $('#main-content').css3Animate('fadeIn', function() {
+                    twaddlr.currentView.show();
+                });
             });
         } else {
             $('#main-content').empty().append(view.render().$el);
             twaddlr.currentView = view;
-        }*/
-
-        if (twaddlr.currentView) {
-           $('#main-content').css3Animate('fadeOut', function() {
-               $('#main-content').empty().append(view.render().$el);
-               twaddlr.currentView = view;
-               $('#main-content').css3Animate('fadeIn');
-           });
-        } else {
-            $('#main-content').empty().append(view.render().$el);
-            twaddlr.currentView = view;
+            twaddlr.currentView.show();
         }
     }
 
@@ -95,6 +83,7 @@ var twaddlr = {};
         socket.on('connected', function(data) {
             console.log('connected!');
             Backbone.history.start();
+
             //twaddlr.router.navigate('register', {trigger: true, replace: true});
         });
     };

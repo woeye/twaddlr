@@ -13,6 +13,21 @@
             'submit form': 'doRegister'
         },
 
+        show: function() {
+            var self = this;
+            twaddlr.socket.on('registration:registered', function() {
+                self._handleRegistered();
+            });
+            twaddlr.socket.on('registration:error', function() {
+                self._handleRegistrationError();
+            });
+        },
+
+        hide: function() {
+            twaddlr.socket.removeAllListeners('registration:registered');
+            twaddlr.socket.removeAllListeners('registration:error');
+        },
+
         render: function() {
             this.$el.html(twaddlr.templates['register-template']);
             //this.$el.find('input').inputPimp();
@@ -26,39 +41,21 @@
 
         doRegister: function(e) {
             e.preventDefault();
-            // this.$el.animate({
-            //     opacity: 0.0
-            // }, 100, 'linear', function() {
-            //     console.log('anim done');
-            // });
-
-            //alert('not implemented yet :/');
             var data = {
                 login: this.$el.find('#login').val(),
                 password: this.$el.find('#password').val(),
                 email: this.$el.find('#email').val()
             };
             console.log(data);
-
-            twaddlr.socket.once('registration:registered', function() {
-                console.log('it worked!');
-            });
-            twaddlr.socket.once('registration:error', function(err) {
-                console.log('it failed :(', err);
-            });
-
             twaddlr.socket.emit('registration:register', data);
+        },
 
-            //console.log(data);
+        _handleRegistered: function() {
+            console.log('registered!', this);
+        },
 
-            // TODO: Proper error handling ;)
-            //$.ajax({
-            //    type: 'POST',
-            //    url: '/api/register',
-            //    data: data
-            //}).done(function(response) {
-            //    console.log(response);
-            //});
+        _handleRegistrationError: function() {
+            console.log('registration failed :(', this);
         }
     });
 
