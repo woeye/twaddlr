@@ -6,6 +6,7 @@
        // template: $('#register-form-template').html(),
 
         initialize: function() {
+            this.loginAvailable = true;
         },
 
         events: {
@@ -21,6 +22,19 @@
             twaddlr.socket.on('registration:error', function() {
                 self._handleRegistrationError();
             });
+            twaddlr.socket.on('registration:loginAvailableResult', function(result) {
+                console.log('Login [' + result.login + '] is available: ' + result.available);
+                if (result.available) {
+                    //self.$el.find('div[data-role="error-login-in-use"]').css('display', 'none');
+                    self.$el.find('div[data-role="ctrl-group-login"]').removeClass('error');
+                    self.$el.find('button').removeAttr('disabled');
+                } else {
+                    //self.$el.find('div[data-role="error-login-in-use"]').css('display', 'block');
+                    self.$el.find('div[data-role="ctrl-group-login"]').addClass('error');
+                    self.$el.find('button').attr('disabled', 'disabled');
+                }
+                //self.render();
+            });
         },
 
         hide: function() {
@@ -29,7 +43,17 @@
         },
 
         render: function() {
-            this.$el.html(twaddlr.templates['register-template']);
+            var self = this;
+            var template = twaddlr.templates['register-template']; 
+            this.$el.html(template({
+                loginInUse: !self.loginAvailable
+            }));
+            this.$el.find('#login').blur(function(e) {
+                console.log('Checking login available: ' + $(this).val());
+                twaddlr.socket.emit('registration:loginAvailable', {
+                    login: $(this).val()
+                });
+            });
             //this.$el.find('input').inputPimp();
             return this;
         },
@@ -56,7 +80,11 @@
 
         _handleRegistrationError: function() {
             console.log('registration failed :(', this);
-        }
+        },
+
+        _handleLoginAvailableCheck: function() {
+
+        },
     });
 
 })(twaddlr);

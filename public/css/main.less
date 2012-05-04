@@ -262,34 +262,28 @@ form span.error > input[type="text"], form span.error > input[type="text"] {
 }
 */
 // ============================================================================
-//   #login-screen
+//  Registration View
 // ============================================================================
 
-#login-screen {
-    -webkit-transition-property: top;
-    -webkit-transition-duration: 0.5s;
-
-    &.hidden {
-        position: relative;
-        top: -900px;
+.register-view {
+    .help-inline {
+        display: none;
     }
-}
 
-#registration-screen {
-    -webkit-transition-property: top;
-    -webkit-transition-duration: 0.5s;
-
-    position: relative;
-    top: -300px;
-
-    &.hidden {
-        position: relative;
-        top: 1000px;
+    .error .help-inline {
+        display: block;
     }
 }
 
 // ============================================================================
-//   #chat-view
+// Login View
+// ============================================================================
+
+.login-view {
+}
+
+// ============================================================================
+// Chat View
 // ============================================================================
 
 .chat-view {

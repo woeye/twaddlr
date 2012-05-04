@@ -46,7 +46,7 @@
         -->
         <script id="register-template" type="text/x-handlebars-template">
 
-            <div class="alert alert-error">
+            <div data-role="error-login-in-use" class="alert alert-error" style="display: none">
                 <button class="close" data-dismiss="alert">×</button>
                 Sorry, login is already in use
             </div>
@@ -62,9 +62,10 @@
                             <input id="email" type="text" name="email" placeholder="Email"/>
                         </div>
                     </div>
-                    <div class="control-group error">
+                    <div class="control-group" data-role="ctrl-group-login">
                         <div class="controls">
                             <input id="login" type="text" name="login" placeholder="Login"/>
+                            <span class="help-inline">login already in use</span>
                         </div>
                     </div>
                     <div class="control-group">
