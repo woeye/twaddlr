@@ -1,33 +1,9 @@
 // Our global app object
-var twaddlr = {};
+var twaddlr = {
+    views: {}
+};
 
 (function(twaddlr) {
-
-    // Init
-    twaddlr.views = {};
-    twaddlr.templates = {};
-    twaddlr.currentView = false;
-
-    // Extend Backbone.View
-    Backbone.View.prototype.hide = function(callback) {}
-    Backbone.View.prototype.show = function(callback) {}
-
-    function showView(view) {
-        if (twaddlr.currentView) {
-            $('#main-content').css3Animate('fadeOut', function() {
-                twaddlr.currentView.hide();
-                $('#main-content').empty().append(view.render().$el);
-                twaddlr.currentView = view;
-                $('#main-content').css3Animate('fadeIn', function() {
-                    twaddlr.currentView.show();
-                });
-            });
-        } else {
-            $('#main-content').empty().append(view.render().$el);
-            twaddlr.currentView = view;
-            twaddlr.currentView.show();
-        }
-    }
 
     // Define the main router
     var AppRouter = Backbone.Router.extend({
@@ -39,17 +15,17 @@ var twaddlr = {};
 
         login: function() {
             console.log('router -> login');
-            showView(new twaddlr.views.LoginView());
+            twaddlr.ViewManager.showView(twaddlr.views.LoginView);
         },
 
         register: function() {
             console.log('router -> register');
-            showView(new twaddlr.views.RegisterView());
+            twaddlr.ViewManager.showView(twaddlr.views.RegisterView);
         },
 
         chat: function() {
             console.log('router -> chat');
-            showView(new twaddlr.views.ChatView());
+            twaddlr.ViewManager.showView(twaddlr.views.ChatView);
         }
     });
     twaddlr.router = new AppRouter();
@@ -71,12 +47,6 @@ var twaddlr = {};
 
 
     twaddlr.start = function() {
-        // Precompile the handlebar templates
-        $('script[type="text/x-handlebars-template"]').each(function() {
-            twaddlr.templates[$(this).attr('id')] = Handlebars.compile($(this).html());
-        });
-        console.log('Compiled all templates ...');
-
         // Establish a socket.io connection ...
         console.log('Connecting to server ...');
         var socket = twaddlr.socket = io.connect('http://localhost');

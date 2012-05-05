@@ -1,9 +1,8 @@
 (function(twaddlr) {
 
     twaddlr.views.LoginView = Backbone.View.extend({
+        templateName: 'login',
         className: 'login-view',
-        //el: '#login-view',
-        //template: $('#login-form-template').html(),
 
         initialize: function() {
         },
@@ -14,8 +13,7 @@
         },
 
         render: function() {
-            console.log('render');
-            this.$el.html(twaddlr.templates['login-template']);
+            this.$el.html(this.template);
             this.$el.find('input').inputPimp();
             return this;
         },
@@ -33,16 +31,6 @@
                 password: this.$el.find('#password').val()
             };
             console.log(data);
-
-            /*$.ajax({
-                type: 'POST',
-                url: '/api/login',
-                data: data
-            }).done(function(res) {
-                console.log('Server responded', res);
-                twaddlr.token = res; // remeber the token
-                twaddlr.trigger('twaddlr:showChatView');
-            });*/
 
             twaddlr.socket.emit('login', data);
             twaddlr.socket.on('login:done', function(data) {

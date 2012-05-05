@@ -1,12 +1,11 @@
 (function(twaddlr) {
 
     twaddlr.views.RegisterView = Backbone.View.extend({
+        templateName: 'register',
         className: 'register-view',
-        //el: '#register-view',
-       // template: $('#register-form-template').html(),
 
         initialize: function() {
-            this.loginAvailable = true;
+            console.log('RegisterView -> initialize');
         },
 
         events: {
@@ -43,18 +42,13 @@
         },
 
         render: function() {
-            var self = this;
-            var template = twaddlr.templates['register-template']; 
-            this.$el.html(template({
-                loginInUse: !self.loginAvailable
-            }));
+            this.$el.html(this.template);
             this.$el.find('#login').blur(function(e) {
                 console.log('Checking login available: ' + $(this).val());
                 twaddlr.socket.emit('registration:loginAvailable', {
                     login: $(this).val()
                 });
             });
-            //this.$el.find('input').inputPimp();
             return this;
         },
 
