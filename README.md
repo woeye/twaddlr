@@ -9,7 +9,7 @@ Twaddlr is currently build on
  * node.js
  * express.js
  * connect
- * jQuery 1.7 (lightweight jQuery alternative)
+ * jQuery 1.7 
  * underscore.js (required by backbone.js)
  * backbone.js
  * handlebars templating engine 
