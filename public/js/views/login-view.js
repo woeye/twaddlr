@@ -27,12 +27,12 @@
             e.preventDefault();
 
             var data = {
-                   login: this.$el.find('#login').val(),
+                username: this.$el.find('#username').val(),
                 password: this.$el.find('#password').val()
             };
             console.log(data);
 
-            twaddlr.socket.emit('login', data);
+            twaddlr.socket.emit('login:login', data);
             twaddlr.socket.on('login:done', function(data) {
                 console.log('login done!');
                 twaddlr.trigger('twaddlr:showChatView');

@@ -21,15 +21,15 @@
             twaddlr.socket.on('registration:error', function() {
                 self._handleRegistrationError();
             });
-            twaddlr.socket.on('registration:loginAvailableResult', function(result) {
-                console.log('Login [' + result.login + '] is available: ' + result.available);
+            twaddlr.socket.on('registration:usernameAvailableResult', function(result) {
+                console.log('Username [' + result.username + '] is available: ' + result.available);
                 if (result.available) {
                     //self.$el.find('div[data-role="error-login-in-use"]').css('display', 'none');
-                    self.$el.find('div[data-role="ctrl-group-login"]').removeClass('error');
+                    self.$el.find('div[data-role="ctrl-group-username"]').removeClass('error');
                     self.$el.find('button').removeAttr('disabled');
                 } else {
                     //self.$el.find('div[data-role="error-login-in-use"]').css('display', 'block');
-                    self.$el.find('div[data-role="ctrl-group-login"]').addClass('error');
+                    self.$el.find('div[data-role="ctrl-group-username"]').addClass('error');
                     self.$el.find('button').attr('disabled', 'disabled');
                 }
                 //self.render();
@@ -43,10 +43,10 @@
 
         render: function() {
             this.$el.html(this.template);
-            this.$el.find('#login').blur(function(e) {
-                console.log('Checking login available: ' + $(this).val());
-                twaddlr.socket.emit('registration:loginAvailable', {
-                    login: $(this).val()
+            this.$el.find('#username').blur(function(e) {
+                console.log('Checking username available: ' + $(this).val());
+                twaddlr.socket.emit('registration:usernameAvailable', {
+                    username: $(this).val()
                 });
             });
             return this;
@@ -60,7 +60,7 @@
         doRegister: function(e) {
             e.preventDefault();
             var data = {
-                login: this.$el.find('#login').val(),
+                username: this.$el.find('#username').val(),
                 password: this.$el.find('#password').val(),
                 email: this.$el.find('#email').val()
             };
