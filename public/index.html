@@ -22,10 +22,21 @@
             </div>
         </div>
 
+        <div id="notifications-wrapper">
+            <div id="notifications"></div>
+        </div>
+
         <div id="main-content">
             Loading app ...
         </div>
  
+        <script id="notification-template" type="text/x-handlebars-template">
+            <div class="alert alert-{{type}}">
+                <button class="close" data-dismiss="alert">×</button>
+                {{msg}}
+            </div>
+        </script>
+
         <!--script src="js/ext/zepto.js"></script-->
         <script src="js/ext/jquery-1.7.2.min.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>

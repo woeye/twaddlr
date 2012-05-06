@@ -203,32 +203,6 @@ form span.error > input[type="text"], form span.error > input[type="text"] {
 
 */
 
-// ============================================================================
-//   #top_navi
-// ============================================================================
-
-#top_navi {
-    position: fixed;
-    display: block;
-    top: 0;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    padding: 0px 20px;
-    border-bottom: 1px solid #111;
-    z-index: 999;
-    .linear-gradient-vertical(#333, darken(#333, 10%));
-    .box-shadow(0 1px 7px rgba(0,0,0,0.7));
-
-    .tools {
-        float: right;
-        color: rgb(240, 240, 240);
-    }
-
-    a {
-        color: rgb(240, 240, 240);
-    }
-}
 
 // ============================================================================
 //   #main-content
@@ -261,6 +235,22 @@ form span.error > input[type="text"], form span.error > input[type="text"] {
     background: -webkit-gradient(linear, 0 0, 0 100%, from(rgb(20, 180, 20)), to(rgb(10, 140, 10)));
 }
 */
+
+// ============================================================================
+//  Notifications
+// ============================================================================
+
+#notifications-wrapper {
+    position: absolute;
+    top: 100px;
+    width: 100%;
+}
+
+#notifications {
+    margin: 0 auto;    
+    width: 300px;
+}
+
 // ============================================================================
 //  Registration View
 // ============================================================================

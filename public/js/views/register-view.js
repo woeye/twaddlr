@@ -15,12 +15,6 @@
 
         show: function() {
             var self = this;
-            twaddlr.socket.on('registration:registered', function() {
-                self._handleRegistered();
-            });
-            twaddlr.socket.on('registration:error', function() {
-                self._handleRegistrationError();
-            });
             twaddlr.socket.on('registration:usernameAvailableResult', function(result) {
                 console.log('Username [' + result.username + '] is available: ' + result.available);
                 if (result.available) {
@@ -37,8 +31,7 @@
         },
 
         hide: function() {
-            twaddlr.socket.removeAllListeners('registration:registered');
-            twaddlr.socket.removeAllListeners('registration:error');
+            twaddlr.socket.removeAllListeners('registration:usernameAvailableResult');
         },
 
         render: function() {
@@ -58,27 +51,23 @@
         },
 
         doRegister: function(e) {
+            var self = this;
+
             e.preventDefault();
             var data = {
                 username: this.$el.find('#username').val(),
                 password: this.$el.find('#password').val(),
                 email: this.$el.find('#email').val()
             };
-            console.log(data);
+            twaddlr.socket.once('registration:registered', function() {
+                twaddlr.ViewManager.showNotification('success', "Registered successfully!");
+            });
+            twaddlr.socket.once('registration:error', function() {
+                twaddlr.ViewManager.showNotification('error', "Registration failed!");
+            });
+
             twaddlr.socket.emit('registration:register', data);
-        },
-
-        _handleRegistered: function() {
-            console.log('registered!', this);
-        },
-
-        _handleRegistrationError: function() {
-            console.log('registration failed :(', this);
-        },
-
-        _handleLoginAvailableCheck: function() {
-
-        },
+        }
     });
 
 })(twaddlr);

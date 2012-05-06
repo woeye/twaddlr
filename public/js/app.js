@@ -45,7 +45,6 @@ var twaddlr = {
         twaddlr.router.navigate('/chat', {trigger:true});
     });
 
-
     twaddlr.start = function() {
         // Establish a socket.io connection ...
         console.log('Connecting to server ...');

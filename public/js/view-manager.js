@@ -1,7 +1,9 @@
 (function(twaddlr) {
     
-    currentView = false;
-    templateCache = {};
+    var currentView = false;
+    var templateCache = {};
+    var notificationTemplateSource = $('#notification-template').html();
+    var notificationTemplate = Handlebars.compile(notificationTemplateSource);
 
     // Extend Backbone.View
     Backbone.View.prototype.hide = function(callback) {}
@@ -34,6 +36,9 @@
 
     twaddlr.ViewManager = {
         showView: function(viewObj) {
+            // Remove all remaining notifications
+            $('#notifications').empty();
+
             // Initialize the view
             var view = new viewObj();
             loadTemplate(view, function(err) {
@@ -52,7 +57,16 @@
                     currentView.show();
                 }
             });
+        },
+
+        showNotification: function(type, msg) {
+            $('#notifications').empty()
+                .html(notificationTemplate({
+                    type: type,
+                    msg: msg
+                }));
         }
+
     };
     console.log(twaddlr.ViewManager);
 
