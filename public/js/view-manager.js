@@ -4,7 +4,6 @@
     var templateCache = {};
     var notificationTemplateSource = $('#notification-template').html();
     var notificationTemplate = Handlebars.compile(notificationTemplateSource);
-    var showsNotification = false;
 
     // Extend Backbone.View
     Backbone.View.prototype.hide = function(callback) {}
@@ -33,6 +32,12 @@
                 callback(null, templateCache[name]);
             });
         }
+    }
+
+    function showsNotification() {
+        var n = $('#notifications');
+        //console.log("n.length", n.length);
+        return n.children().length > 0;        
     }
 
     twaddlr.ViewManager = {
@@ -69,7 +74,6 @@
                         msg: msg
                     }));
                 n.css3Animate('bounceIn', function() {
-                    showsNotification = true;         
                     if (callback) callback();           
                 });
             });
@@ -79,10 +83,9 @@
             var n = $('#notifications');    
             function doClear() {
                 n.empty();
-                showsNotification = false;
                 if (callback) callback();
             }
-            if (animated && showsNotification) {
+            if (animated && showsNotification()) {
                 n.css3Animate('fadeOut', function() {
                     doClear();
                 });
