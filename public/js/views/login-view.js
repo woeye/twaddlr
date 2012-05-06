@@ -23,6 +23,7 @@
         },
 
         doLogin: function(e) {
+            var self = this;
             e.preventDefault();
 
             var data = {
@@ -30,14 +31,15 @@
                 password: this.$el.find('#password').val()
             };
 
-            // Reset notifications
-            $('.alert').css('display', 'none');
-
             twaddlr.socket.once('login:done', function(data) {
                 console.log("Login sucess! My token: ", data.token);
                 twaddlr.token = data.token;
-                twaddlr.trigger('twaddlr:showChatView');
-                twaddlr.ViewManager.showNotification('success', "Logged in successfully!");
+                twaddlr.ViewManager.showNotification('success', "Logged in successfully!", function() {
+                    self.$el.css3Animate('fadeOut', function() {
+                        self.$el.empty();
+                        twaddlr.trigger('twaddlr:showChatView');
+                    });
+                });
             });          
             twaddlr.socket.once('login:error', function(data) {
                 console.log("Login failed!", data);

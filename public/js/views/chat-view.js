@@ -1,9 +1,8 @@
 (function(twaddlr) {
 
     twaddlr.views.ChatView = Backbone.View.extend({
+        templateName: 'chat',
         className: 'chat-view',
-        //el: '#register-view',
-       // template: $('#register-form-template').html(),
 
         initialize: function() {
         },
@@ -12,7 +11,7 @@
         },
 
         render: function() {
-            this.$el.html(twaddlr.templates['chat-template']);
+            this.$el.html(this.template);
             return this;
         }
     });

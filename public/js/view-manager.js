@@ -4,6 +4,7 @@
     var templateCache = {};
     var notificationTemplateSource = $('#notification-template').html();
     var notificationTemplate = Handlebars.compile(notificationTemplateSource);
+    var showsNotification = false;
 
     // Extend Backbone.View
     Backbone.View.prototype.hide = function(callback) {}
@@ -37,36 +38,58 @@
     twaddlr.ViewManager = {
         showView: function(viewObj) {
             // Remove all remaining notifications
-            $('#notifications').empty();
-
-            // Initialize the view
-            var view = new viewObj();
-            loadTemplate(view, function(err) {
-                if (currentView) {
-                    $('#main-content').css3Animate('fadeOut', function() {
-                        currentView.hide();
+            this.clearNotification(false, function() {
+                // Initialize the view
+                var view = new viewObj();
+                loadTemplate(view, function(err) {
+                    if (currentView) {
+                        $('#main-content').css3Animate('fadeOut', function() {
+                            currentView.hide();
+                            $('#main-content').empty().append(view.render().$el);
+                            currentView = view;
+                            $('#main-content').css3Animate('fadeIn', function() {
+                                currentView.show();
+                            });
+                        });
+                    } else {
                         $('#main-content').empty().append(view.render().$el);
                         currentView = view;
-                        $('#main-content').css3Animate('fadeIn', function() {
-                            currentView.show();
-                        });
-                    });
-                } else {
-                    $('#main-content').empty().append(view.render().$el);
-                    currentView = view;
-                    currentView.show();
-                }
+                        currentView.show();
+                    }
+                });
             });
         },
 
-        showNotification: function(type, msg) {
-            $('#notifications').empty()
-                .html(notificationTemplate({
-                    type: type,
-                    msg: msg
-                }));
-        }
+        showNotification: function(type, msg, callback) {
+            var n = $('#notifications');
+            this.clearNotification(true, function() {
+                n.empty()
+                    .html(notificationTemplate({
+                        type: type,
+                        msg: msg
+                    }));
+                n.css3Animate('bounceIn', function() {
+                    showsNotification = true;         
+                    if (callback) callback();           
+                });
+            });
+        },
 
+        clearNotification: function(animated, callback) {
+            var n = $('#notifications');    
+            function doClear() {
+                n.empty();
+                showsNotification = false;
+                if (callback) callback();
+            }
+            if (animated && showsNotification) {
+                n.css3Animate('fadeOut', function() {
+                    doClear();
+                });
+            } else {
+                doClear();
+            }
+        }
     };
     console.log(twaddlr.ViewManager);
 
