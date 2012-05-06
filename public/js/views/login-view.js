@@ -5,6 +5,9 @@
         className: 'login-view',
 
         initialize: function() {
+            if (twaddlr.token) {
+                twaddlr.trigger('twaddlr:showChatView');
+            }
         },
 
         events: {

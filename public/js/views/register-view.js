@@ -5,7 +5,9 @@
         className: 'register-view',
 
         initialize: function() {
-            console.log('RegisterView -> initialize');
+            if (twaddlr.token) {
+                twaddlr.trigger('twaddlr:showChatView');
+            }
         },
 
         events: {

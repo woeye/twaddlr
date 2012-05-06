@@ -1,6 +1,7 @@
 // Our global app object
 var twaddlr = {
-    views: {}
+    views: {},
+    token: false
 };
 
 (function(twaddlr) {
