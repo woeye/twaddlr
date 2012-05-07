@@ -8,6 +8,19 @@
             if (twaddlr.token) {
                 twaddlr.trigger('twaddlr:showChatView');
             }
+
+            /*var usernameCookie = $.cookie('twaddlr_username');
+            var tokenCookie = $.cookie('twaddlr_token');
+            if (usernameCookie && tokenCookie) {
+                twaddlr.token.once('login:verifyTokenSucceeded', function() {
+                    twaddlr.token = tokenCookie;
+                    twaddlr.trigger('twaddlr:showChatView');
+                });
+                twaddlr.token.emit('login:verifyToken', {
+                    username: usernameCookie,
+                    token: tokenCookie
+                });
+            }*/
         },
 
         events: {
@@ -26,17 +39,17 @@
         },
 
         doLogin: function(e) {
-            var self = this;
             e.preventDefault();
 
-            var data = {
-                username: this.$el.find('#username').val(),
-                password: this.$el.find('#password').val()
-            };
+            var self = this;
+            var username = this.$el.find('#username').val();
+            var password = this.$el.find('#password').val();  
 
             twaddlr.socket.once('login:done', function(data) {
                 console.log("Login sucess! My token: ", data.token);
                 twaddlr.token = data.token;
+                // $.cookie('twaddlr_username', username);
+                // $.cookie('twaddlr_token', twaddlr.token);
                 twaddlr.ViewManager.showNotification('success', "Logged in successfully!", function() {
                     self.$el.css3Animate('fadeOut', function() {
                         self.$el.empty();
@@ -54,7 +67,10 @@
                     twaddlr.ViewManager.showNotification('error', "Login failed!");
                 }
             });
-            twaddlr.socket.emit('login:login', data);
+            twaddlr.socket.emit('login:login', {
+                username: username,
+                password: password
+            });
         }
     });
 
