@@ -10,7 +10,7 @@
 
 		var _this = $(this);
 		var classes = 'animated ' + cssClass;
-		var callback = callback || function(){};
+		callback = callback || function(){};
 
 		console.log("Starting effect: " + cssClass);
 

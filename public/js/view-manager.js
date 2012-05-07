@@ -6,8 +6,8 @@
     var notificationTemplate = Handlebars.compile(notificationTemplateSource);
 
     // Extend Backbone.View
-    Backbone.View.prototype.hide = function(callback) {}
-    Backbone.View.prototype.show = function(callback) {}
+    Backbone.View.prototype.hide = function(callback) {};
+    Backbone.View.prototype.show = function(callback) {};
 
     function loadTemplate(view, callback) {
         var self = this;

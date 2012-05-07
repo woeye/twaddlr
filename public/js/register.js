@@ -20,5 +20,5 @@ $(document).ready(function() {
       alert("Couldn't create user: " + response.responseText);
     });
 
-   })
+   });
 });
