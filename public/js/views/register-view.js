@@ -16,19 +16,18 @@
         },
 
         show: function() {
-            var self = this;
-            twaddlr.socket.on('registration:usernameAvailableResult', function(result) {
+            twaddlr.socket.on('registration:usernameAvailableResult', $.proxy(function(result) {
                 console.log("Username [" + result.username + "] is available: " + result.available);
                 if (result.available) {
-                    self.$el.find('div[data-role="ctrl-group-username"]').removeClass('error');
-                    self.$el.find('button').removeAttr('disabled');
+                    this.$el.find('div[data-role="ctrl-group-username"]').removeClass('error');
+                    this.$el.find('button').removeAttr('disabled');
                     twaddlr.ViewManager.clearNotification(true);
                 } else {
-                    self.$el.find('button').attr('disabled', 'disabled');
-                    self.$el.find('div[data-role="ctrl-group-username"]').addClass('error');
+                    this.$el.find('button').attr('disabled', 'disabled');
+                    this.$el.find('div[data-role="ctrl-group-username"]').addClass('error');
                     twaddlr.ViewManager.showNotification('error', "Username already in use");
                 }
-            });
+            }, this));
         },
 
         hide: function() {
@@ -52,22 +51,21 @@
         },
 
         doRegister: function(e) {
-            var self = this;
-
             e.preventDefault();
             var data = {
                 username: this.$el.find('#username').val(),
                 password: this.$el.find('#password').val(),
                 email: this.$el.find('#email').val()
             };
-            twaddlr.socket.once('registration:registered', function() {
-                twaddlr.ViewManager.showNotification('success', "Registered successfully!", function() {
-                    self.$el.css3Animate('fadeOut', function() {
-                        self.$el.empty();
+            twaddlr.socket.once('registration:registered', $.proxy(function(data) {
+                twaddlr.ViewManager.showNotification('success', "Registered successfully!", $.proxy(function() {
+                    this.$el.css3Animate('fadeOut', $.proxy(function() {
+                        this.$el.empty();
+                        twaddlr.updateLoginState(username, data.token);
                         twaddlr.trigger('twaddlr:showChatView');
-                    });
-                });
-            });
+                    }, this));
+                }, this));
+            }, this));
             twaddlr.socket.once('registration:error', function() {
                 twaddlr.ViewManager.showNotification('error', "Registration failed!");
             });

@@ -11,10 +11,14 @@
 
     function loadTemplate(view, callback) {
         var self = this;
-        getTemplate(view.templateName, function(err, template) {
-            view.template = template;
-            callback(err);
-        });
+        if ('templateName' in view) {
+            getTemplate(view.templateName, function(err, template) {
+                view.template = template;
+                callback(err);
+            });
+        } else {
+            callback(null);
+        }
     }
 
     function getTemplate(name, callback) {
@@ -38,6 +42,10 @@
         var n = $('#notifications');
         //console.log("n.length", n.length);
         return n.children().length > 0;        
+    }
+
+    function doViewAnimation(view) {
+
     }
 
     twaddlr.ViewManager = {

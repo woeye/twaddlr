@@ -1,10 +1,7 @@
-// Our global app object
-var twaddlr = {
-    views: {},
-    token: false
-};
-
 (function(twaddlr) {
+
+    // Set up the main app view
+    var appView = twaddlr.appView = new twaddlr.views.AppView();
 
     // Define the main router
     var AppRouter = Backbone.Router.extend({
@@ -26,6 +23,7 @@ var twaddlr = {
 
         chat: function() {
             console.log('router -> chat');
+            appView.update();
             twaddlr.ViewManager.showView(twaddlr.views.ChatView);
         }
     });
@@ -45,6 +43,17 @@ var twaddlr = {
     twaddlr.on('twaddlr:showChatView', function() {
         twaddlr.router.navigate('/chat', {trigger:true});
     });
+
+    twaddlr.updateLoginState = function(username, token) {
+        twaddlr.username = username;
+        twaddlr.token = token;
+        //appView.update();
+    }
+
+    twaddlr.flushLoginState = function() {
+        twaddlr.username = false;
+        twaddlr.token = false;
+    }
 
     twaddlr.start = function() {
         // Establish a socket.io connection ...
