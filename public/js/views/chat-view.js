@@ -5,8 +5,8 @@
         className: 'chat-view',
 
         initialize: function() {
-            if (twaddlr.token === false) {
-                console.log("Token not found! Requesting loginView ...");
+            if (twaddlr.appState.isAuthorized() === false) {
+                console.log("Not authorized! Requesting loginView ...");
                 twaddlr.trigger('twaddlr:showLoginView');
             }
         },

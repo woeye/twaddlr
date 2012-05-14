@@ -48,7 +48,7 @@
 
     }
 
-    twaddlr.ViewManager = {
+    twaddlr.viewManager = {
         showView: function(viewObj) {
             // Remove all remaining notifications
             this.clearNotification(false, function() {
@@ -60,6 +60,7 @@
                             currentView.hide();
                             $('#main-content').empty().append(view.render().$el);
                             currentView = view;
+                            twaddlr.appState.set({ currentView: currentView });
                             $('#main-content').css3Animate('fadeIn', function() {
                                 currentView.show();
                             });
@@ -67,6 +68,7 @@
                     } else {
                         $('#main-content').empty().append(view.render().$el);
                         currentView = view;
+                        twaddlr.appState.set({ currentView: currentView });
                         currentView.show();
                     }
                 });

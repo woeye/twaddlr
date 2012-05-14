@@ -21,11 +21,11 @@
                 if (result.available) {
                     this.$el.find('div[data-role="ctrl-group-username"]').removeClass('error');
                     this.$el.find('button').removeAttr('disabled');
-                    twaddlr.ViewManager.clearNotification(true);
+                    twaddlr.viewManager.clearNotification(true);
                 } else {
                     this.$el.find('button').attr('disabled', 'disabled');
                     this.$el.find('div[data-role="ctrl-group-username"]').addClass('error');
-                    twaddlr.ViewManager.showNotification('error', "Username already in use");
+                    twaddlr.viewManager.showNotification('error', "Username already in use");
                 }
             }, this));
         },
@@ -58,16 +58,19 @@
                 email: this.$el.find('#email').val()
             };
             twaddlr.socket.once('registration:registered', $.proxy(function(data) {
-                twaddlr.ViewManager.showNotification('success', "Registered successfully!", $.proxy(function() {
+                twaddlr.viewManager.showNotification('success', "Registered successfully!", $.proxy(function() {
                     this.$el.css3Animate('fadeOut', $.proxy(function() {
                         this.$el.empty();
-                        twaddlr.updateLoginState(username, data.token);
+                        twaddlr.appState.set({
+                            username: username,
+                            token: data.token
+                        });
                         twaddlr.trigger('twaddlr:showChatView');
                     }, this));
                 }, this));
             }, this));
             twaddlr.socket.once('registration:error', function() {
-                twaddlr.ViewManager.showNotification('error', "Registration failed!");
+                twaddlr.viewManager.showNotification('error', "Registration failed!");
             });
 
             twaddlr.socket.emit('registration:register', data);

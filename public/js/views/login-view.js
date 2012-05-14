@@ -48,10 +48,13 @@
                 console.log("Login sucess! My token: ", data.token);
                 // $.cookie('twaddlr_username', username);
                 // $.cookie('twaddlr_token', twaddlr.token);
-                twaddlr.ViewManager.showNotification('success', "Logged in successfully!", $.proxy(function() {
+                twaddlr.viewManager.showNotification('success', "Logged in successfully!", $.proxy(function() {
                     this.$el.css3Animate('fadeOut', $.proxy(function() {
                         this.$el.empty();
-                        twaddlr.updateLoginState(username, data.token);
+                        twaddlr.appState.set({
+                            username: username,
+                            token: data.token
+                        });
                         twaddlr.trigger('twaddlr:showChatView');
                     }, this));
                 }, this));
@@ -60,14 +63,14 @@
             twaddlr.socket.once('login:error', function(data) {
                 console.log("Login failed!", data);
                 if (data.error == 'invalidUsername') {
-                    twaddlr.ViewManager.showNotification('error', "Invalid username!");
+                    twaddlr.viewManager.showNotification('error', "Invalid username!");
                 } else if (data.error == 'invalidPassword') {
-                    twaddlr.ViewManager.showNotification('error', "Invalid password!");
+                    twaddlr.viewManager.showNotification('error', "Invalid password!");
                 } else {
-                    twaddlr.ViewManager.showNotification('error', "Login failed!");
+                    twaddlr.viewManager.showNotification('error', "Login failed!");
                 }
             });
-            
+
             twaddlr.socket.emit('login:login', {
                 username: username,
                 password: password

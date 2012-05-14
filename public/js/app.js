@@ -13,18 +13,18 @@
 
         login: function() {
             console.log('router -> login');
-            twaddlr.ViewManager.showView(twaddlr.views.LoginView);
+            twaddlr.viewManager.showView(twaddlr.views.LoginView);
         },
 
         register: function() {
             console.log('router -> register');
-            twaddlr.ViewManager.showView(twaddlr.views.RegisterView);
+            twaddlr.viewManager.showView(twaddlr.views.RegisterView);
         },
 
         chat: function() {
             console.log('router -> chat');
             appView.update();
-            twaddlr.ViewManager.showView(twaddlr.views.ChatView);
+            twaddlr.viewManager.showView(twaddlr.views.ChatView);
         }
     });
     twaddlr.router = new AppRouter();
@@ -43,17 +43,6 @@
     twaddlr.on('twaddlr:showChatView', function() {
         twaddlr.router.navigate('/chat', {trigger:true});
     });
-
-    twaddlr.updateLoginState = function(username, token) {
-        twaddlr.username = username;
-        twaddlr.token = token;
-        //appView.update();
-    }
-
-    twaddlr.flushLoginState = function() {
-        twaddlr.username = false;
-        twaddlr.token = false;
-    }
 
     twaddlr.start = function() {
         // Establish a socket.io connection ...
