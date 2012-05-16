@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <title>twaddlr alpha</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="robots" content="noindex">
-        <meta name="robots" content="nofollow">
+  <head>
+    <title>twaddlr alpha</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="noindex">
+    <meta name="robots" content="nofollow">
 
-        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/animate.css">
-        <link rel="stylesheet/less" type="text/css" href="css/main.less">
-        <script src="js/ext/less-1.3.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <link rel="stylesheet/less" type="text/css" href="css/main.less">
+    <script src="js/ext/less-1.3.0.min.js"></script>
+  </head>
+  
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">twaddlr</a>
+          <ul class="nav pull-right">
+            <li data-role="logout" style="display: none"><a data-action="logout" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="notifications-wrapper">
+      <div id="notifications"></div>
+    </div>
+
+    <div id="main-content" class="container">
+      Loading app ...
+    </div>
  
-    </head>
-    <body>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="brand" href="#">twaddlr</a>
-                    <ul class="nav pull-right">
-                        <li data-role="logout" style="display: none"><a data-action="logout" href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <script id="notification-template" type="text/x-handlebars-template">
+      <div class="alert alert-{{type}}">
+        <button class="close" data-dismiss="alert">×</button>
+        {{msg}}
+      </div>
+    </script>
 
-        <div id="notifications-wrapper">
-            <div id="notifications"></div>
-        </div>
+    <!--script src="js/ext/zepto.js"></script-->
+    <script src="js/ext/jquery-1.7.2.min.js"></script>
+    <script src="js/ext/jquery.cookie.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/ext/underscore.js"></script>
+    <script src="js/ext/backbone.js"></script>
+    <script src="js/ext/handlebars-1.0.0.beta.6.js"></script>
+     <!-- Load app scripts -->
+    <script src="js/input-pimp.js"></script>
+    <script src="js/animate.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/app-state.js"></script>
+    <script src="js/view-manager.js"></script>
+    <script src="js/views/app-view.js"></script>
+    <script src="js/views/login-view.js"></script>
+    <script src="js/views/register-view.js"></script>
+    <script src="js/views/chat-view.js"></script>
+    <script src="js/app.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-        <div id="main-content" class="container">
-            Loading app ...
-        </div>
- 
-        <script id="notification-template" type="text/x-handlebars-template">
-            <div class="alert alert-{{type}}">
-                <button class="close" data-dismiss="alert">×</button>
-                {{msg}}
-            </div>
-        </script>
-
-        <!--script src="js/ext/zepto.js"></script-->
-        <script src="js/ext/jquery-1.7.2.min.js"></script>
-        <script src="js/ext/jquery.cookie.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="js/ext/underscore.js"></script>
-        <script src="js/ext/backbone.js"></script>
-        <script src="js/ext/handlebars-1.0.0.beta.6.js"></script>
-       <!-- Load app scripts -->
-        <script src="js/input-pimp.js"></script>
-        <script src="js/animate.js"></script>
-        <script src="js/init.js"></script>
-        <script src="js/app-state.js"></script>
-        <script src="js/view-manager.js"></script>
-        <script src="js/views/app-view.js"></script>
-        <script src="js/views/login-view.js"></script>
-        <script src="js/views/register-view.js"></script>
-        <script src="js/views/chat-view.js"></script>
-        <script src="js/app.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-
-    </body>
+  </body>
 </html>
