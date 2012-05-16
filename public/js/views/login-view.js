@@ -5,10 +5,6 @@
         className: 'login-view',
 
         initialize: function() {
-            if (twaddlr.token) {
-                twaddlr.trigger('twaddlr:showChatView');
-            }
-
             /*var usernameCookie = $.cookie('twaddlr_username');
             var tokenCookie = $.cookie('twaddlr_token');
             if (usernameCookie && tokenCookie) {

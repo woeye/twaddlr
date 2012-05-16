@@ -1,23 +1,44 @@
 (function(twaddlr) {
 
-    twaddlr.views.ChatView = Backbone.View.extend({
-        templateName: 'chat',
-        className: 'chat-view',
+  twaddlr.views.ChatView = Backbone.View.extend({
+    templateName: 'chat',
+    className: 'chat-view',
 
-        initialize: function() {
-            if (twaddlr.appState.isAuthorized() === false) {
-                console.log("Not authorized! Requesting loginView ...");
-                twaddlr.trigger('twaddlr:showLoginView');
-            }
-        },
+    initialize: function() {
+      if (twaddlr.appState.isAuthorized() === false) {
+        console.log("Not authorized! Requesting loginView ...");
+        twaddlr.trigger('twaddlr:showLoginView');
+      }
+    },
 
-        events: {
-        },
+    events: {
+      'submit form': 'sendChatMessage'
+    },
 
-        render: function() {
-            this.$el.html(this.template);
-            return this;
-        }
-    });
+    show: function() {
+      console.log("Registering for incoming messages ...");
+      twaddlr.socket.on('chat:message', $.proxy(function(data) {
+        console.log("Got message from server", data);
+        this.$el.find('.msg-view').append('<p><span class="username">[' + data.username + ']</span> ' + data.message + '</p>');
+      }, this));
+    },
+
+    render: function() {
+      this.$el.html(this.template);
+      return this;
+    },
+
+    sendChatMessage: function(e) {
+      e.preventDefault();
+      
+      var input = this.$el.find('#chat-message')
+      var msg = input.val();
+      twaddlr.socket.emit('chat:message', {
+        message: msg
+      });
+      input.val('');
+    }
+
+  });
 
 })(twaddlr);

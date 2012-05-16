@@ -5,7 +5,8 @@
     token: false,
 
     isAuthorized: function() {
-      return (this.get('token') !== false);
+      console.log("hasToken: " + this.has('token'));
+      return (this.has('token'));
     },
 
     flushAuth: function() {
