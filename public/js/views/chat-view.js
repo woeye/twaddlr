@@ -14,9 +14,18 @@
 
     show: function() {
       console.log("Registering for incoming messages ...");
-      twaddlr.socket.on('chat:message', $.proxy(function(data) {
-        console.log("Got message from server", data);
-        this.$el.find('.msg-view').append('<p><span class="username">[' + data.username + ']</span> ' + data.message + '</p>');
+
+      // Load history
+      twaddlr.socket.emit('chat:history');
+      twaddlr.socket.once('chat:historyResult', $.proxy(function(messages) {
+        _.each(messages, $.proxy(function(msg) {
+          this._postMessage(msg);
+        }, this));
+      }, this));
+
+      twaddlr.socket.on('chat:message', $.proxy(function(msg) {
+        console.log("Got message from server", msg);
+        this._postMessage(msg);
       }, this));
     },
 
@@ -34,6 +43,10 @@
         message: msg
       });
       input.val('');
+    },
+
+    _postMessage: function(msg) {
+      this.$el.find('.msg-view').append('<p><span class="username">[' + msg.username + ']</span> ' + msg.message + '</p>');      
     }
 
   });
