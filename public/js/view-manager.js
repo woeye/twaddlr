@@ -8,6 +8,8 @@
   // Extend Backbone.View
   Backbone.View.prototype.hide = function(callback) {};
   Backbone.View.prototype.show = function(callback) {};
+  Backbone.View.prototype.requiresAuth = false;
+    // body...
 
   function loadTemplate(view, callback) {
     var self = this;
@@ -44,8 +46,25 @@
     return n.children().length > 0;        
   }
 
-  function doViewAnimation(view) {
-
+  function loadView(view) {
+    loadTemplate(view, function(err) {
+      if (currentView) {
+        $('#main-content').css3Animate('fadeOut', function() {
+          currentView.hide();
+          $('#main-content').empty().append(view.render().$el);
+          currentView = view;
+          twaddlr.appState.set({ currentView: currentView });
+          $('#main-content').css3Animate('fadeIn', function() {
+            currentView.show();
+          });
+        });
+      } else {
+        $('#main-content').empty().append(view.render().$el);
+        currentView = view;
+        twaddlr.appState.set({ currentView: currentView });
+        currentView.show();
+      }
+    });
   }
 
   twaddlr.viewManager = {
@@ -54,24 +73,12 @@
       this.clearNotification(false, function() {
         // Initialize the view
         var view = new viewObj();
-        loadTemplate(view, function(err) {
-          if (currentView) {
-            $('#main-content').css3Animate('fadeOut', function() {
-              currentView.hide();
-              $('#main-content').empty().append(view.render().$el);
-              currentView = view;
-              twaddlr.appState.set({ currentView: currentView });
-              $('#main-content').css3Animate('fadeIn', function() {
-                currentView.show();
-              });
-            });
-          } else {
-            $('#main-content').empty().append(view.render().$el);
-            currentView = view;
-            twaddlr.appState.set({ currentView: currentView });
-            currentView.show();
-          }
-        });
+        if (view.requiresAuth && twaddlr.appState.isAuthorized() === false) {
+          console.log("View requires authentication! Redirecting to login view ...");
+          twaddlr.trigger('twaddlr:showLoginView');
+        } else {
+          loadView(view);
+        }
       });
     },
 

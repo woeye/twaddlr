@@ -10,10 +10,8 @@
     },
 
     flushAuth: function() {
-      this.set({
-        username: false,
-        token: false
-      });
+      this.unset('username');
+      this.unset('token');
     }
   });
 

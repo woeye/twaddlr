@@ -48,25 +48,15 @@
     // Establish a socket.io connection ...
     console.log('Connecting to server ...');
     var socket = twaddlr.socket = io.connect('http://localhost');
-    socket.on('connected', function(data) {
+    socket.once('connected', function(data) {
       console.log('connected!');
 
-      /*
-      if (twaddlr.appState.isAuthorized()) {
-        console.log("Found auth in appState. Reconnecting ...");
-        console.log(twaddlr.appState.get('username'));
-        socket.emit('login:reconnect', {
-          username: twaddlr.appState.get('username'),
-          token: twaddlr.appState.get('token')
-        });
-      }*/
-
-      Backbone.history.start();
-
+      if (_.isUndefined(twaddlr.historyStarted)) {
+        twaddlr.historyStarted = Backbone.history.start();
+      } 
       //twaddlr.router.navigate('register', {trigger: true, replace: true});
     });
 
-    /*
     socket.on('reconnect', function() {
       console.log("Client reconnected!");
       console.log("Reauthenticating with server ...");
@@ -74,8 +64,8 @@
         username: twaddlr.appState.get('username'),
         token: twaddlr.appState.get('token')
       });
+      // TODO: Deal with result (login:reconnectSucceeded/Failed)
     });
-*/
   };
 
 })(twaddlr);

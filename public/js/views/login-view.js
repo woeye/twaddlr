@@ -5,18 +5,6 @@
         className: 'login-view',
 
         initialize: function() {
-            /*var usernameCookie = $.cookie('twaddlr_username');
-            var tokenCookie = $.cookie('twaddlr_token');
-            if (usernameCookie && tokenCookie) {
-                twaddlr.token.once('login:verifyTokenSucceeded', function() {
-                    twaddlr.token = tokenCookie;
-                    twaddlr.trigger('twaddlr:showChatView');
-                });
-                twaddlr.token.emit('login:verifyToken', {
-                    username: usernameCookie,
-                    token: tokenCookie
-                });
-            }*/
         },
 
         events: {

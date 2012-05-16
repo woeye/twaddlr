@@ -3,12 +3,9 @@
   twaddlr.views.ChatView = Backbone.View.extend({
     templateName: 'chat',
     className: 'chat-view',
+    requiresAuth: true,
 
     initialize: function() {
-      if (twaddlr.appState.isAuthorized() === false) {
-        console.log("Not authorized! Requesting loginView ...");
-        twaddlr.trigger('twaddlr:showLoginView');
-      }
     },
 
     events: {
@@ -30,7 +27,7 @@
 
     sendChatMessage: function(e) {
       e.preventDefault();
-      
+
       var input = this.$el.find('#chat-message')
       var msg = input.val();
       twaddlr.socket.emit('chat:message', {
