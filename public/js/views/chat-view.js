@@ -46,7 +46,7 @@
     },
 
     _postMessage: function(msg) {
-      this.$el.find('.msg-view').append('<p><span class="username">[' + msg.username + ']</span> ' + msg.message + '</p>');      
+      this.$el.find('.msg-view').append('<div class="msg-item"><span class="username">' + msg.username + '</span><span class="msg-text">' + msg.message + '</span></div>');      
     }
 
   });

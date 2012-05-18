@@ -2,7 +2,7 @@
 //   Global variables
 // ============================================================================
 
-@bg-color: #f0f0f0;
+@bg-color: #efefef;
 
 // ============================================================================
 //   General helper functions
@@ -145,40 +145,27 @@ form {
 
 .chat-view {
   .msg-view { 
-    height: 300px;
+    min-height: 300px;
     margin-bottom: 10px;
-    border: 1px solid #bbb;
     background-color: #fff;
+    border: 1px solid #ccc;
 
-    ul {
-      list-style: none;
+    .msg-item {
+      padding: 5px;
+      border-bottom: 1px solid #eee;
 
-      li {
-        color: #666;
-        background-color: #fff;
-        border-bottom: 1px solid #eee;
-
-        .user {
-          float: left;
-          display: block;
-          width: 100px;
-          padding: 7px 15px;
-          text-align: right;
-        }
-
-        .message {
-          display: block;
-          margin-left: 130px;
-          padding: 7px 15px;
-          border-left: 1px solid #eee;
-        }
+      .username {
+        display: block;
+        color: #888;
       }
     }
   }
 
   .user-input {
     text-align: left;
-
+    input {
+      width: 553px;
+    }
   }
 }
 
