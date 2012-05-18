@@ -30,8 +30,8 @@
 
             twaddlr.socket.once('login:done', $.proxy(function(data) {
                 console.log("Login sucess! My token: ", data.token);
-                // $.cookie('twaddlr_username', username);
-                // $.cookie('twaddlr_token', twaddlr.token);
+                $.cookie('twaddlr_username', username);
+                $.cookie('twaddlr_token', data.token);
                 twaddlr.viewManager.showNotification('success', "Logged in successfully!", $.proxy(function() {
                     this.$el.css3Animate('fadeOut', $.proxy(function() {
                         this.$el.empty();

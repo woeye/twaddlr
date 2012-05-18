@@ -56,6 +56,8 @@
           twaddlr.appState.set({ currentView: currentView });
           $('#main-content').css3Animate('fadeIn', function() {
             currentView.show();
+            //$('body').removeClass();
+            //$('body').addClass('view-' + currentView.className);
           });
         });
       } else {
@@ -63,6 +65,8 @@
         currentView = view;
         twaddlr.appState.set({ currentView: currentView });
         currentView.show();
+        //$('body').removeClass();
+        //$('body').addClass('view-' + currentView.className);
       }
     });
   }

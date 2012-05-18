@@ -12,6 +12,8 @@
     flushAuth: function() {
       this.unset('username');
       this.unset('token');
+      $.cookie('twaddlr_username', null);
+      $.cookie('twaddlr_token', null);
     }
   });
 

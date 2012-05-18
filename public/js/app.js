@@ -6,7 +6,7 @@
   // Define the main router
   var AppRouter = Backbone.Router.extend({
     routes: {
-      "": "login",
+      "login": "login",
       "register": "register",
       "chat": "chat"
     },
@@ -33,7 +33,7 @@
   _.extend(twaddlr, Backbone.Events);
 
   twaddlr.on('twaddlr:showLoginView', function() {
-    twaddlr.router.navigate('/', {trigger:true});
+    twaddlr.router.navigate('/login', {trigger:true});
   });
 
   twaddlr.on('twaddlr:showRegisterView', function() {
@@ -44,6 +44,19 @@
     twaddlr.router.navigate('/chat', {trigger:true});
   });
 
+  function reauthenticate(username, token, callback) {
+      console.log("Reauthenticating with server ...");
+      twaddlr.socket.emit('login:reauthenticate', {
+        username: username,
+        token: token 
+      });
+      twaddlr.socket.once('login:reauthenticationSucceeded', function() {
+        console.log("Reauthentication worked!");
+        if (callback) callback(true);
+      });
+      // TODO: Deal with result (login:reconnectSucceeded/Failed)    
+  }
+
   twaddlr.start = function() {
     // Establish a socket.io connection ...
     console.log('Connecting to server ...');
@@ -52,19 +65,30 @@
       console.log('connected!');
 
       if (_.isUndefined(twaddlr.historyStarted)) {
+        console.log("Starting Backbone history ...");
         twaddlr.historyStarted = Backbone.history.start();
       } 
+
+      // Check for existing authentication cookies
+      var username = $.cookie('twaddlr_username');
+      var token = $.cookie('twaddlr_token');
+      console.log(username, token);
+      if (username && token) {
+        console.log("Found username and token in session!");
+        reauthenticate(username, token, function(result) {
+          twaddlr.appState.set('username', username);
+          twaddlr.appState.set('token', token);
+          twaddlr.router.navigate('/chat', {trigger:true});
+        });
+      }
+
       //twaddlr.router.navigate('register', {trigger: true, replace: true});
+
     });
 
     socket.on('reconnect', function() {
       console.log("Client reconnected!");
-      console.log("Reauthenticating with server ...");
-      socket.emit('login:reconnect', {
-        username: twaddlr.appState.get('username'),
-        token: twaddlr.appState.get('token')
-      });
-      // TODO: Deal with result (login:reconnectSucceeded/Failed)
+      reauthenticate(twaddlr.appState.get('username'), twaddlr.appState.get('token'));
     });
   };
 
