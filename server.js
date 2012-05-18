@@ -3,7 +3,8 @@
  */
 
 var util = require('util'),
-    express = require('express'),
+    connect = require('connect'),
+    http = require('http'),
     redis = require('redis'),
     PORT = 3000;
 
@@ -16,22 +17,20 @@ redisClient.on('error', function(err) {
 
 
 // Create our server
-var app = express();
+var app = connect();
 var publicDir = __dirname + '/public';
-var viewsDir = __dirname + '/views';
 
 // Add mime-type for LESS files
-express.static.mime.define({ 'text/css': ['css', 'less'] });
-console.log(express.static.mime.lookup('less'));
+//express.static.mime.define({ 'text/css': ['css', 'less'] });
+//console.log(express.static.mime.lookup('less'));
 
 // Configure express
-app.use(express.bodyParser());
-app.use(express.cookieParser('malabar'));
-app.use(express.session());
+app.use(connect.cookieParser('malabar'));
+app.use(connect.session());
 //app.use(express.logger());
-app.use(app.router);
+//app.use(app.router);
 //app.use(express.compiler({ src: publicDir, enable: ['less'] }));
-app.use(express.static(publicDir));
+app.use(connect.static(publicDir));
 
 //app.use(express.basicAuth)
 
@@ -50,7 +49,8 @@ app.use(express.static(publicDir));
 
 // Ok, let's listen on port PORT
 console.log("Starting server on port " + PORT);
-var server = app.listen(PORT);
+//var server = app.listen(PORT);
+var server = http.createServer(app).listen(PORT);
 
 // Initialize socket.io subsystem
 require('./lib/com_hub')(server, redisClient);

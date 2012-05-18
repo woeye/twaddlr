@@ -59,7 +59,7 @@
                     this.$el.css3Animate('fadeOut', $.proxy(function() {
                         this.$el.empty();
                         twaddlr.appState.set({
-                            username: username,
+                            username: data.username,
                             token: data.token
                         });
                         twaddlr.trigger('twaddlr:showChatView');
