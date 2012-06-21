@@ -13,7 +13,7 @@ Twaddlr is currently build on
  * backbone.js
  * handlebars templating engine 
  * Twitter's bootstrap
- * SockJS
+ * WebSockets + einaros' ws on node's side
  * redis
 
 Getting started
