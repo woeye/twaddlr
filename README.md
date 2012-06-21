@@ -7,14 +7,13 @@ Technology Stack
 Twaddlr is currently build on 
  
  * node.js
- * express.js
- * connect
+ * sencha connect
  * jQuery 1.7 
  * underscore.js (required by backbone.js)
  * backbone.js
  * handlebars templating engine 
  * Twitter's bootstrap
- * socket.io
+ * SockJS
  * redis
 
 Getting started
