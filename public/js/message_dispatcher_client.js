@@ -18,30 +18,25 @@
       console.log(type);
       console.log(this.subscribers);
       if (_.has(this.subscribers, type)) {
-        var cb = this.subscribers[type].callback;
+        var cb = this.subscribers[type];
         cb(data.msg);
-        if (cb.onlyOnce) delete(this.subscribers[type]);
+        if (cb.onlyOnce) delete(this.subscribers[type]); 
       }
     }, this);
 
     this.ws.onclose = function() {
       console.log('Connection closed!');
     };
-
   }
 
   MessageDispatcher.prototype.on = function(type, callback) {
-    this.subscribers[type] = {
-      callback: callback,
-      onlyOnce: false
-    };
+    callback.onlyOnce = false;
+    this.subscribers[type] = callback;
   };
 
   MessageDispatcher.prototype.once = function(type, callback) {
-    this.subscribers[type] = {
-      callback: callback,
-      onlyOnce: true
-    };
+    callback.onlyOnce = true;
+    this.subscribers[type] = callback;
   };
 
   MessageDispatcher.prototype.send = function(type, msg) {

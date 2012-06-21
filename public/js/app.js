@@ -46,11 +46,11 @@
 
   function reauthenticate(username, token, callback) {
       console.log("Reauthenticating with server ...");
-      twaddlr.socket.emit('login:reauthenticate', {
+      twaddlr.dispatcher.send('login:reauthenticate', {
         username: username,
         token: token 
       });
-      twaddlr.socket.once('login:reauthenticationSucceeded', function() {
+      twaddlr.dispatcher.once('login:reauthenticationSucceeded', function() {
         console.log("Reauthentication worked!");
         if (callback) callback(true);
       });
@@ -85,15 +85,7 @@
       }
     });
 
-    /*var socket = twaddlr.socket = io.connect('http://localhost');
-    socket.once('connected', function(data) {
-      console.log('connected!');
-
-
-      //twaddlr.router.navigate('register', {trigger: true, replace: true});
-
-    });
-
+    /*
     socket.on('reconnect', function() {
       console.log("Client reconnected!");
       reauthenticate(twaddlr.appState.get('username'), twaddlr.appState.get('token'));

@@ -85,6 +85,22 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
       }
     });
 
+    con.on('login:reauthenticate', function(msg) {
+      console.log("Client reauhthentication attempt");
+      console.log(util.inspect(msg));
+      if (msg.username && msg.token) {
+        redisClient.hgetall('users:' + msg.username, function(err, obj) {
+          if (obj && obj.token == msg.token) {
+            con.username = msg.username;
+            con.token = obj.token;
+            con.send('login:reauthenticationSucceeded');
+          } else {
+            con.send('login:reauthenticationFailed');
+          }
+        });
+      }
+    });
+
     con.on('chat:history', function(msg) {
       var messages = [];
       redisClient.zrange('messages:history', -10, -1, function(err, results) {
@@ -134,21 +150,6 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
       }
     });
 
-    socket.on('login:reauthenticate', function(data) {
-      console.log("Client reauhthentication attempt");
-      console.log(util.inspect(data));
-      if (data.username && data.token) {
-        redisClient.hgetall('users:' + data.username, function(err, obj) {
-          if (obj && obj.token == data.token) {
-            socket.username = data.username;
-            socket.token = obj.token;
-            socket.emit('login:reauthenticationSucceeded');
-          } else {
-            socket.emit('login:reauthenticationFailed');
-          }
-        });
-      }
-    });
 
 
     socket.on('chat:history', function(data) {
