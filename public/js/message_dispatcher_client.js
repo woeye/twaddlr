@@ -16,7 +16,9 @@
       console.log(type);
       console.log(this.subscribers);
       if (_.has(this.subscribers, type)) {
-        this.subscribers[type](data.msg);
+        var cb = this.subscribers[type].callback;
+        cb(data.msg);
+        if (cb.onlyOnce) delete(this.subscribers[type]);
       }
     }, this);
 
@@ -27,7 +29,17 @@
   }
 
   MessageDispatcher.prototype.on = function(type, callback) {
-    this.subscribers[type] = callback;
+    this.subscribers[type] = {
+      callback: callback,
+      onlyOnce: false
+    };
+  };
+
+  MessageDispatcher.prototype.once = function(type, callback) {
+    this.subscribers[type] = {
+      callback: callback,
+      onlyOnce: true
+    };
   };
 
   MessageDispatcher.prototype.send = function(type, msg) {

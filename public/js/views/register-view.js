@@ -54,7 +54,8 @@
         password: this.$el.find('#password').val(),
         email: this.$el.find('#email').val()
       };
-      /*twaddlr.socket.once('registration:registered', $.proxy(function(data) {
+
+      twaddlr.dispatcher.once('registration:registered', $.proxy(function(data) {
         twaddlr.viewManager.showNotification('success', "Registered successfully!", $.proxy(function() {
           this.$el.css3Animate('fadeOut', $.proxy(function() {
             this.$el.empty();
@@ -66,11 +67,12 @@
           }, this));
         }, this));
       }, this));
-      twaddlr.socket.once('registration:error', function() {
+
+      twaddlr.dispatcher.once('registration:error', function() {
         twaddlr.viewManager.showNotification('error', "Registration failed!");
       });
 
-      twaddlr.socket.emit('registration:register', data);*/
+      twaddlr.dispatcher.send('registration:register', data);
     }
   });
 

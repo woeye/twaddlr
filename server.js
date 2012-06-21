@@ -8,9 +8,11 @@ var util = require('util'),
     redis = require('redis'),
     PORT = 3000;
 
+var twaddlr = {}; // Server state
+
 // Connect to Redis
-var redisClient = redis.createClient();
-redisClient.on('error', function(err) {
+twaddlr.redisClient = redis.createClient();
+twaddlr.redisClient.on('error', function(err) {
     console.log("Couldn't connect to redis: " + err);
     process.exit(1);
 });
@@ -26,7 +28,16 @@ app.use(connect.static(publicDir));
 
 // Ok, let's listen on port PORT
 console.log("Starting server on port " + PORT);
-var server = http.createServer(app).listen(PORT);
+twaddlr.server = http.createServer(app).listen(PORT);
 
 // Initialize socket.io subsystem
-require('./lib/com_hub')(server, redisClient);
+twaddlr.userService = require('./backend/user_service');
+twaddlr.userService.init(twaddlr.redisClient);
+
+twaddlr.chatService = require('./backend/chat_service');
+twaddlr.chatService.init(twaddlr.redisClient);
+
+twaddlr.comHub = require('./backend/com_hub');
+twaddlr.comHub.init(twaddlr.server, twaddlr.redisClient, 
+  twaddlr.userService, twaddlr.chatService);
+

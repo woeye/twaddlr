@@ -50,20 +50,16 @@ function MessageDispatcher(server) {
 
   this.sockjsServer.on('connection', function (con) {
     console.log("Got new connection! ID: " + con.id);
-    /*con.write(JSON.stringify({
-      type: 'connection:connected',
-      msg: 'welcome to twaddlr'
-    }));*/
-
+    
     var mdCon = new MDConnection(con);
     this.emit('connection', mdCon);
     this.connections[con.id] = mdCon;
-
 
     con.on('close', function() {
       console.log("Connection closed! ID: " + con.id);
       delete(this.connections[con.id]);
       console.log("Remaining connections: ", Object.keys(this.connections).length);
+      this.emit('disconnect', mdCon);
     }.bind(this));
 
     con.on('data', function(data) {
@@ -77,25 +73,15 @@ function MessageDispatcher(server) {
   }.bind(this));
 }
 
-/*MessageDispatcher.prototype.on = function(type, callback) {
-  this.listeners[type] = callback;
-};
-
-MessageDispatcher.prototype.emit = function(type, message) {
-};
-
-MessageDispatcher.prototype.broadcast = function(type, message) {
-  var envelope = {
-    type: type,
-    msg: message
-  };
-  var data = JSON.stringify(envelope);
-
-  this.connections.forEach(function(con) {
-    con.write(data);
-  });
-};*/
-
 MessageDispatcher.prototype = Object.create(events.EventEmitter.prototype);
+
+MessageDispatcher.prototype.broadcast = function(type, msg) {
+  Object.keys(this.connections).forEach(function(conId) {
+    var mdCon = this.connections[conId];
+    mdCon.send(type, msg);
+  }.bind(this));
+}
+
+
 
 module.exports = MessageDispatcher;

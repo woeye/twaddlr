@@ -28,7 +28,7 @@
             var username = this.$el.find('#username').val();
             var password = this.$el.find('#password').val();  
 
-            twaddlr.socket.once('login:done', $.proxy(function(data) {
+            twaddlr.dispatcher.once('login:done', $.proxy(function(data) {
                 console.log("Login sucess! My token: ", data.token);
                 $.cookie('twaddlr_username', username);
                 $.cookie('twaddlr_token', data.token);
@@ -44,7 +44,7 @@
                 }, this));
             }, this));          
 
-            twaddlr.socket.once('login:error', function(data) {
+            twaddlr.dispatcher.once('login:error', function(data) {
                 console.log("Login failed!", data);
                 if (data.error == 'invalidUsername') {
                     twaddlr.viewManager.showNotification('error', "Invalid username!");
@@ -55,7 +55,7 @@
                 }
             });
 
-            twaddlr.socket.emit('login:login', {
+            twaddlr.dispatcher.send('login:login', {
                 username: username,
                 password: password
             });

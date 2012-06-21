@@ -16,14 +16,14 @@
       console.log("Registering for incoming messages ...");
 
       // Load history
-      twaddlr.socket.emit('chat:history');
-      twaddlr.socket.once('chat:historyResult', $.proxy(function(messages) {
+      twaddlr.dispatcher.send('chat:history');
+      twaddlr.dispatcher.once('chat:historyResult', $.proxy(function(messages) {
         _.each(messages, $.proxy(function(msg) {
           this._postMessage(msg);
         }, this));
       }, this));
 
-      twaddlr.socket.on('chat:message', $.proxy(function(msg) {
+      twaddlr.dispatcher.on('chat:message', $.proxy(function(msg) {
         console.log("Got message from server", msg);
         this._postMessage(msg);
       }, this));
@@ -39,7 +39,7 @@
 
       var input = this.$el.find('#chat-message')
       var msg = input.val();
-      twaddlr.socket.emit('chat:message', {
+      twaddlr.dispatcher.send('chat:message', {
         message: msg
       });
       input.val('');
