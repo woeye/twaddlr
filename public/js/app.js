@@ -58,11 +58,11 @@
   }
 
   twaddlr.start = function() {
-    // Establish a socket.io connection ...
-    console.log('Connecting to server ...');
-    var socket = twaddlr.socket = io.connect('http://localhost');
-    socket.once('connected', function(data) {
-      console.log('connected!');
+    twaddlr.dispatcher = new twaddlr.MessageDispatcher();
+
+    console.log('x');
+    twaddlr.dispatcher.on('connection:welcome', function(msg) {
+      console.log("Got welcome message from server", msg);
 
       if (_.isUndefined(twaddlr.historyStarted)) {
         console.log("Starting Backbone history ...");
@@ -80,7 +80,15 @@
           twaddlr.appState.set('token', token);
           twaddlr.router.navigate('/chat', {trigger:true});
         });
+      } else {
+        twaddlr.router.navigate('register', {trigger: true, replace: true});        
       }
+    });
+
+    /*var socket = twaddlr.socket = io.connect('http://localhost');
+    socket.once('connected', function(data) {
+      console.log('connected!');
+
 
       //twaddlr.router.navigate('register', {trigger: true, replace: true});
 
@@ -89,7 +97,7 @@
     socket.on('reconnect', function() {
       console.log("Client reconnected!");
       reauthenticate(twaddlr.appState.get('username'), twaddlr.appState.get('token'));
-    });
+    });*/
   };
 
 })(twaddlr);
