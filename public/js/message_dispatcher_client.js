@@ -1,14 +1,16 @@
 (function(twaddlr) {
   function MessageDispatcher() {
     console.log('Connecting to server ...');
-    this.sockjs = new SockJS('/sockjs');
+    //this.sockjs = new SockJS('/sockjs');
+    this.ws = new WebSocket('ws://localhost:3000');
+
     this.subscribers = {};
 
-    this.sockjs.onopen = function() {
+    this.ws.onopen = function() {
       console.log('Connection opened!');
     };
 
-    this.sockjs.onmessage = $.proxy(function(e) {
+    this.ws.onmessage = $.proxy(function(e) {
       console.log('Got message: ', e.data);
       var data = JSON.parse(e.data);
 
@@ -22,7 +24,7 @@
       }
     }, this);
 
-    this.sockjs.onclose = function() {
+    this.ws.onclose = function() {
       console.log('Connection closed!');
     };
 
@@ -48,7 +50,7 @@
       msg: msg
     };
     var data = JSON.stringify(envelope);
-    this.sockjs.send(data);
+    this.ws.send(data);
   };
 
   twaddlr.MessageDispatcher = MessageDispatcher;

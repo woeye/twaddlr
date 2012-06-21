@@ -1,4 +1,5 @@
-var sockjs = require('sockjs'),
+var ws = require('ws'),
+    //sockjs = require('sockjs'),
     events = require('events');
 
 
@@ -27,7 +28,7 @@ MDConnection.prototype.on = function(type, callback) {
 };
 
 MDConnection.prototype.send = function(type, message) {
-  this.con.write(createEnvelope(type, message));
+  this.con.send(createEnvelope(type, message));
 };
 
 MDConnection.prototype._handleMsg = function(type, message) {
@@ -43,13 +44,17 @@ MDConnection.prototype._handleMsg = function(type, message) {
 function MessageDispatcher(server) {
   events.EventEmitter.call(this);
 
-  this.sockjsServer = sockjs.createServer();
-  this.sockjsServer.installHandlers(server, {prefix: '/sockjs'});
+  //this.sockjsServer = sockjs.createServer();
+  //this.sockjsServer.installHandlers(server, {prefix: '/sockjs'});
+  this.wsServer = new ws.Server({server: server});
+
   this.connections = {};
   this.listeners = {};
 
-  this.sockjsServer.on('connection', function (con) {
+  this.wsServer.on('connection', function (con) {
+    con.id = new Date().getTime();
     console.log("Got new connection! ID: " + con.id);
+    //console.log(con);
     
     var mdCon = new MDConnection(con);
     this.emit('connection', mdCon);
@@ -62,7 +67,7 @@ function MessageDispatcher(server) {
       this.emit('disconnect', mdCon);
     }.bind(this));
 
-    con.on('data', function(data) {
+    con.on('message', function(data, flags) {
       console.log("Got data on connection: ", con.id);
       console.log(data);
       
