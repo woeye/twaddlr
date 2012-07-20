@@ -1,13 +1,21 @@
-(function(twaddlr) {
+define(function() {
+
   function MessageDispatcher() {
     console.log('Connecting to server ...');
     //this.sockjs = new SockJS('/sockjs');
-    this.ws = new WebSocket('ws://localhost:3000');
-
+    console.log(document.location.href);
     this.subscribers = {};
+  }
+
+  MessageDispatcher.prototype.connect = function() {
+    this.ws = new WebSocket('ws://localhost:3000');
 
     this.ws.onopen = function() {
       console.log('Connection opened!');
+    };
+
+    this.ws.onerror = function() {
+      console.log("Couldn't connect :(");
     };
 
     this.ws.onmessage = $.proxy(function(e) {
@@ -25,9 +33,10 @@
     }, this);
 
     this.ws.onclose = function() {
-      console.log('Connection closed!');
+      console.log('Ups! Connection closed! Trying to reconnect ...');
+      setTimeout($.proxy(this.connect, this), 2000);
     };
-  }
+  };
 
   MessageDispatcher.prototype.on = function(type, callback) {
     callback.onlyOnce = false;
@@ -48,6 +57,6 @@
     this.ws.send(data);
   };
 
-  twaddlr.MessageDispatcher = MessageDispatcher;
+  return new MessageDispatcher();
 
-})(twaddlr);
+});

@@ -1,6 +1,11 @@
-(function(twaddlr) {
+define([
+  'backbone', 
+  'app/message-dispatcher-client',
+  'app/view-manager',
+  'app/app-state'
+], function(Backbone, MessageDispatcher, ViewManager, AppState) {
 
-  twaddlr.views.RegisterView = Backbone.View.extend({
+  var RegisterView = Backbone.View.extend({
     templateName: 'register',
     className: 'register-view',
 
@@ -13,16 +18,16 @@
     },
 
     show: function() {      
-      twaddlr.dispatcher.on('registration:usernameAvailableResult', $.proxy(function(result) {
+      MessageDispatcher.on('registration:usernameAvailableResult', $.proxy(function(result) {
         console.log("Username [" + result.username + "] is available: " + result.available);
         if (result.available) {
           this.$el.find('div[data-role="ctrl-group-username"]').removeClass('error');
           this.$el.find('button').removeAttr('disabled');
-          twaddlr.viewManager.clearNotification(true);
+          ViewManager.clearNotification(true);
         } else {
           this.$el.find('button').attr('disabled', 'disabled');
           this.$el.find('div[data-role="ctrl-group-username"]').addClass('error');
-          twaddlr.viewManager.showNotification('error', "Username already in use");
+          ViewManager.showNotification('error', "Username already in use");
         }
       }, this));
     },
@@ -35,7 +40,7 @@
       this.$el.html(this.template);
       this.$el.find('#username').blur(function(e) {
         console.log('Checking username available: ' + $(this).val());
-        twaddlr.dispatcher.send('registration:usernameAvailable', {
+        MessageDispatcher.send('registration:usernameAvailable', {
           username: $(this).val()
         });
       });
@@ -44,7 +49,7 @@
 
     showLoginForm: function(e) {
       e.preventDefault();
-      twaddlr.trigger('twaddlr:showLoginView');
+      ViewManager.trigger('twaddlr:showLoginView');
     },
 
     doRegister: function(e) {
@@ -55,25 +60,27 @@
         email: this.$el.find('#email').val()
       };
 
-      twaddlr.dispatcher.once('registration:registered', $.proxy(function(data) {
-        twaddlr.viewManager.showNotification('success', "Registered successfully!", $.proxy(function() {
+      MessageDispatcher.once('registration:registered', $.proxy(function(data) {
+        ViewManager.showNotification('success', "Registered successfully!", $.proxy(function() {
           this.$el.css3Animate('fadeOut', $.proxy(function() {
             this.$el.empty();
-            twaddlr.appState.set({
+            AppState.set({
               username: data.username,
               token: data.token
             });
-            twaddlr.trigger('twaddlr:showChatView');
+            ViewManager.trigger('twaddlr:showChatView');
           }, this));
         }, this));
       }, this));
 
-      twaddlr.dispatcher.once('registration:error', function() {
-        twaddlr.viewManager.showNotification('error', "Registration failed!");
+      MessageDispatcher.once('registration:error', function() {
+        ViewManager.showNotification('error', "Registration failed!");
       });
 
-      twaddlr.dispatcher.send('registration:register', data);
+      MessageDispatcher.send('registration:register', data);
     }
   });
 
-})(twaddlr);
+  //return new RegisterView();
+  return RegisterView;
+});

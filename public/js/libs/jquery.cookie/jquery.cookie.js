@@ -1,5 +1,6 @@
+/*jshint eqnull:true */
 /*!
- * jQuery Cookie Plugin
+ * jQuery Cookie Plugin v1.1
  * https://github.com/carhartl/jquery-cookie
  *
  * Copyright 2011, Klaus Hartl
@@ -7,14 +8,23 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.opensource.org/licenses/GPL-2.0
  */
-(function($) {
+(function($, document) {
+
+    var pluses = /\+/g;
+    function raw(s) {
+        return s;
+    }
+    function decoded(s) {
+        return decodeURIComponent(s.replace(pluses, ' '));
+    }
+
     $.cookie = function(key, value, options) {
 
         // key and at least value given, set cookie...
-        if (arguments.length > 1 && (!/Object/.test(Object.prototype.toString.call(value)) || value === null || value === undefined)) {
-            options = $.extend({}, options);
+        if (arguments.length > 1 && (!/Object/.test(Object.prototype.toString.call(value)) || value == null)) {
+            options = $.extend({}, $.cookie.defaults, options);
 
-            if (value === null || value === undefined) {
+            if (value == null) {
                 options.expires = -1;
             }
 
@@ -35,13 +45,17 @@
         }
 
         // key and possibly options given, get cookie...
-        options = value || {};
-        var decode = options.raw ? function(s) { return s; } : decodeURIComponent;
-
-        var pairs = document.cookie.split('; ');
-        for (var i = 0, pair; pair = pairs[i] && pairs[i].split('='); i++) {
-            if (decode(pair[0]) === key) return decode(pair[1] || ''); // IE saves cookies with empty string as "c; ", e.g. without "=" as opposed to EOMB, thus pair[1] may be undefined
+        options = value || $.cookie.defaults || {};
+        var decode = options.raw ? raw : decoded;
+        var cookies = document.cookie.split('; ');
+        for (var i = 0, parts; (parts = cookies[i] && cookies[i].split('=')); i++) {
+            if (decode(parts.shift()) === key) {
+                return decode(parts.join('='));
+            }
         }
         return null;
     };
-})(jQuery);
+
+    $.cookie.defaults = {};
+
+})(jQuery, document);

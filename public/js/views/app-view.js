@@ -1,34 +1,40 @@
-(function(twaddlr) {
+define([
+  'backbone', 
+  'app/app-state',
+  'app/view-manager'
+], function(Backbone, AppState, ViewManager) {
 
-    twaddlr.views.AppView = Backbone.View.extend({
-        el: 'body',
+  var AppView = Backbone.View.extend({
+    el: 'body',
 
-        events: {
-            'click a[data-action="logout"]': 'logout'            
-        },
+    events: {
+      'click a[data-action="logout"]': 'logout'            
+    },
 
-        initialize: function() {
-            console.log("Initialize");
+    initialize: function() {
+      console.log("Initialize");
 
-            twaddlr.appState.on('change:token', $.proxy(function() {
-                console.log("Token changed!");
-                this.update();
-            }, this));
-        },
+      AppState.on('change:token', $.proxy(function() {
+        console.log("Token changed!");
+        this.update();
+      }, this));
+    },
 
-        update: function() {
-            if (twaddlr.appState.isAuthorized()) {
-                this.$el.find('li[data-role="logout"]').css('display', 'block');
-            } else {
-                this.$el.find('li[data-role="logout"]').css('display', 'none');
-            }
-        },
+    update: function() {
+      if (AppState.isAuthorized()) {
+        this.$el.find('li[data-role="logout"]').css('display', 'block');
+      } else {
+        this.$el.find('li[data-role="logout"]').css('display', 'none');
+      }
+    },
 
-        logout: function() {
-            twaddlr.appState.flushAuth();
-            this.update();
-            twaddlr.trigger('twaddlr:showLoginView');
-        }
-    });
+    logout: function() {
+      AppState.flushAuth();
+      this.update();
+      ViewManager.trigger('twaddlr:showLoginView');
+    }
+  });
 
-})(twaddlr);
+  //return new AppView();
+  return AppView;
+});

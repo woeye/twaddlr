@@ -1,6 +1,6 @@
-(function(twaddlr) {
-
-  twaddlr.models.AppState = Backbone.Model.extend({
+define(['backbone'], function(Backbone) {
+  
+  var AppState = Backbone.Model.extend({
     username: false,
     token: false,
 
@@ -17,6 +17,6 @@
     }
   });
 
-  twaddlr.appState = new twaddlr.models.AppState();
+  return new AppState();
 
-})(twaddlr);
+});

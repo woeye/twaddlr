@@ -1,5 +1,10 @@
-(function(twaddlr) {
-  
+define([
+  'backbone', 
+  'handlebars', 
+  'app/app-state',
+  'jquery.animate'
+], function(Backbone, Handlebars, AppState) {
+
   var currentView = false;
   var templateCache = {};
   var notificationTemplateSource = $('#notification-template').html();
@@ -53,7 +58,7 @@
           currentView.hide();
           $('#main-content').empty().append(view.render().$el);
           currentView = view;
-          twaddlr.appState.set({ currentView: currentView });
+          AppState.set({ currentView: currentView });
           $('#main-content').css3Animate('fadeIn', function() {
             currentView.show();
             //$('body').removeClass();
@@ -61,9 +66,10 @@
           });
         });
       } else {
+        console.log(view.render().$el);
         $('#main-content').empty().append(view.render().$el);
         currentView = view;
-        twaddlr.appState.set({ currentView: currentView });
+        AppState.set({ currentView: currentView });
         currentView.show();
         //$('body').removeClass();
         //$('body').addClass('view-' + currentView.className);
@@ -71,15 +77,16 @@
     });
   }
 
-  twaddlr.viewManager = {
+  var ViewManager = {
     showView: function(viewObj) {
       // Remove all remaining notifications
+      var self = this;
       this.clearNotification(false, function() {
         // Initialize the view
         var view = new viewObj();
-        if (view.requiresAuth && twaddlr.appState.isAuthorized() === false) {
+        if (view.requiresAuth && AppState.isAuthorized() === false) {
           console.log("View requires authentication! Redirecting to login view ...");
-          twaddlr.trigger('twaddlr:showLoginView');
+          self.trigger('twaddlr:showLoginView');
         } else {
           loadView(view);
         }
@@ -115,6 +122,8 @@
       }
     }
   };
-  console.log(twaddlr.ViewManager);
 
-})(twaddlr);
+  _.extend(ViewManager, Backbone.Events);
+  return ViewManager;
+
+});
