@@ -1,26 +1,35 @@
-define(function() {
+define(['engine.io'], function(eio) {
 
   function MessageDispatcher() {
     console.log('Connecting to server ...');
+
     //this.sockjs = new SockJS('/sockjs');
     console.log(document.location.href);
     this.subscribers = {};
   }
 
   MessageDispatcher.prototype.connect = function() {
-    this.ws = new WebSocket('ws://localhost:3000');
+    this.socket = new eio.Socket({
+      host: 'localhost',
+      port: 3000
+    });
 
-    this.ws.onopen = function() {
+
+    //this.socket.onopen = function() {
+    this.socket.on('open', function() {
       console.log('Connection opened!');
-    };
+    });
 
-    this.ws.onerror = function() {
+    //this.socket.onerror = function() {
+    this.socket.on('error', function(err) {
       console.log("Couldn't connect :(");
-    };
+    });
 
-    this.ws.onmessage = $.proxy(function(e) {
-      console.log('Got message: ', e.data);
-      var data = JSON.parse(e.data);
+    //this.socket.onmessage = $.proxy(function(e) {
+    this.socket.on('message', $.proxy(function(rawData) {
+      //console.log('Got message: ', e.data);
+      var data = JSON.parse(rawData);
+      console.log(data);
 
       var type = data['type'];
       console.log(type);
@@ -30,12 +39,13 @@ define(function() {
         cb(data.msg);
         if (cb.onlyOnce) delete(this.subscribers[type]); 
       }
-    }, this);
+    }, this));
 
-    this.ws.onclose = function() {
+    //this.socket.onclose = function() {
+    this.socket.on('close', function() {
       console.log('Ups! Connection closed! Trying to reconnect ...');
       setTimeout($.proxy(this.connect, this), 2000);
-    };
+    });
   };
 
   MessageDispatcher.prototype.on = function(type, callback) {
@@ -54,7 +64,7 @@ define(function() {
       msg: msg
     };
     var data = JSON.stringify(envelope);
-    this.ws.send(data);
+    this.socket.send(data);
   };
 
   return new MessageDispatcher();

@@ -2,13 +2,14 @@
 
 require.config({
   paths: {
-    jquery: 'libs/jquery/jquery-1.7.2.min',
-    underscore: 'libs/underscore/underscore-1.3.3.min',
-    backbone: 'libs/backbone/backbone-0.9.2.min',
-    async: 'libs/async/async-0.1.22.min',
-    handlebars: 'libs/handlebars/handlebars-1.0.0.beta.6',
-    'jquery.cookie': 'libs/jquery.cookie/jquery.cookie',
-    'jquery.animate': 'libs/jquery.css3animate/jquery.css3animate'
+    jquery: 'ext/jquery-1.8.2.min',
+    underscore: 'ext/underscore-1.3.3.min',
+    backbone: 'ext/backbone-0.9.2.min',
+    async: 'ext/async.min',
+    handlebars: 'ext/handlebars-1.0.rc.1',
+    'jquery.cookie': 'ext/jquery.cookie',
+    'engine.io': 'ext/engine.io',
+    'jquery.animate': 'jquery.css3animate'
   },
   shim: {
     'jquery': {
@@ -25,6 +26,9 @@ require.config({
     },
     'handlebars': {
       exports: 'Handlebars'
+    },
+    'engine.io': {
+      exports: 'eio'
     }
   }
 });

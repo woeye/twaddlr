@@ -1,4 +1,5 @@
 var ws = require('ws'),
+    engine = require('engine.io'),
     //sockjs = require('sockjs'),
     events = require('events');
 
@@ -8,6 +9,7 @@ function createEnvelope(type, message) {
     type: type,
     msg: message
   };
+  console.log("Created envelope", envelope);
   return JSON.stringify(envelope);
 }
 
@@ -18,8 +20,8 @@ function parseEnvelope(envelope) {
 ///////////////////////////////////////////////////////////////////////////////
 // MDConnection 
 
-function MDConnection(con) {
-  this.con = con;
+function MDConnection(socket) {
+  this.socket = socket;
   this.subscribers = {};
 }
 
@@ -28,7 +30,7 @@ MDConnection.prototype.on = function(type, callback) {
 };
 
 MDConnection.prototype.send = function(type, message) {
-  this.con.send(createEnvelope(type, message));
+  this.socket.send(createEnvelope(type, message));
 };
 
 MDConnection.prototype._handleMsg = function(type, message) {
@@ -46,35 +48,34 @@ function MessageDispatcher(server) {
 
   //this.sockjsServer = sockjs.createServer();
   //this.sockjsServer.installHandlers(server, {prefix: '/sockjs'});
-  this.wsServer = new ws.Server({server: server});
+  //this.wsServer = new ws.Server({server: server});
+
+  this.engineServer = engine.attach(server);
 
   this.connections = {};
   this.listeners = {};
 
-  this.wsServer.on('connection', function (con) {
-    con.id = new Date().getTime();
-    console.log("Got new connection! ID: " + con.id);
-    //console.log(con);
-    
-    var mdCon = new MDConnection(con);
-    this.emit('connection', mdCon);
-    this.connections[con.id] = mdCon;
+  this.engineServer.on('connection', function(socket) {
+    console.log("Got new connection! ID:", socket.id);
 
-    con.on('close', function() {
-      console.log("Connection closed! ID: " + con.id);
-      delete(this.connections[con.id]);
+    var mdCon = new MDConnection(socket);
+    this.emit('connection', mdCon);
+    this.connections[socket.id] = socket;
+
+    socket.on('close', function() {
+      console.log("Connection closed! ID: " + socket.id);
+      delete(this.connections[socket.id]);
       console.log("Remaining connections: ", Object.keys(this.connections).length);
       this.emit('disconnect', mdCon);
     }.bind(this));
 
-    con.on('message', function(data, flags) {
-      console.log("Got data on connection: ", con.id);
+    socket.on('message', function(data, flags) {
+      console.log("Got data on connection: ", socket.id);
       console.log(data);
       
       var obj = parseEnvelope(data);
       mdCon._handleMsg(obj.type, obj.msg);
     }.bind(this));
-
   }.bind(this));
 }
 

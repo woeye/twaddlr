@@ -7,6 +7,6 @@
   "dependencies": {
     "redis": "",
     "connect": "",
-    "socket.io": ""
+    "engine.io": "git://github.com/LearnBoost/engine.io.git#master"
   }
 }
