@@ -1,31 +1,21 @@
 define(['engine.io'], function(eio) {
 
   function MessageDispatcher() {
-    console.log('Connecting to server ...');
-
-    //this.sockjs = new SockJS('/sockjs');
-    console.log(document.location.href);
     this.subscribers = {};
+    this.socket = false;
+    this.retries = 0;
   }
 
-  MessageDispatcher.prototype.connect = function() {
-    this.socket = new eio.Socket({
-      host: 'localhost',
-      port: 3000
-    });
-
-
-    //this.socket.onopen = function() {
+  MessageDispatcher.prototype.registerEvents = function() {
+    // Register listeners
     this.socket.on('open', function() {
       console.log('Connection opened!');
     });
 
-    //this.socket.onerror = function() {
     this.socket.on('error', function(err) {
       console.log("Couldn't connect :(");
     });
 
-    //this.socket.onmessage = $.proxy(function(e) {
     this.socket.on('message', $.proxy(function(rawData) {
       //console.log('Got message: ', e.data);
       var data = JSON.parse(rawData);
@@ -41,11 +31,31 @@ define(['engine.io'], function(eio) {
       }
     }, this));
 
-    //this.socket.onclose = function() {
-    this.socket.on('close', function() {
-      console.log('Ups! Connection closed! Trying to reconnect ...');
-      setTimeout($.proxy(this.connect, this), 2000);
-    });
+    this.socket.on('close', $.proxy(function() {
+      console.log('Ups! Connection closed!');
+
+      // reconnect isn't currently working
+      //setTimeout($.proxy(this.connect, this), 10000);
+    }, this));
+  };
+
+  MessageDispatcher.prototype.connect = function() {
+    if (this.socket === false) {
+      console.log("Opening new connection to server ...");
+      this.socket = new eio.Socket({
+        host: 'localhost',
+        port: 3000
+      });
+      this.registerEvents();
+    } else {
+      console.log("Trying to reconnect!");
+      if (this.retries > 5) {
+        console.log("Giving up :(");
+      } else {
+        this.retries++;
+        this.socket.open();
+      }
+    }
   };
 
   MessageDispatcher.prototype.on = function(type, callback) {
@@ -64,6 +74,7 @@ define(['engine.io'], function(eio) {
       msg: msg
     };
     var data = JSON.stringify(envelope);
+    console.log("Sending data: ", data);
     this.socket.send(data);
   };
 

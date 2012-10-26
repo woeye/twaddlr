@@ -47,8 +47,10 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
               error: err
             });
           } else {
+            con.username = username;
+            con.token = token;
             con.send('registration:registered', {
-              usernane: username,
+              username: username,
               token: token
             });
           }
@@ -116,7 +118,7 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
     });
 
     con.on('chat:message', function(msg) {
-      console.log("[" + con.username + "]: " + msg.message);
+      //console.log("[" + con.username + "]: " + msg.message);
   
       // Persist message in redis
       var chatMsg = {
@@ -129,8 +131,6 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
     });
 
   });
-
-
 };
 
 
