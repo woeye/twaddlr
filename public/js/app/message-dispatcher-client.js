@@ -8,7 +8,7 @@ define(function() {
   }
 
   MessageDispatcher.prototype.connect = function() {
-    this.ws = new WebSocket('ws://localhost:3000');
+    this.ws = new WebSocket('ws://' + document.location.host);
 
     this.ws.onopen = function() {
       console.log('Connection opened!');

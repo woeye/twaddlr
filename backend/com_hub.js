@@ -91,7 +91,7 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
       console.log("Client reauhthentication attempt");
       console.log(util.inspect(msg));
       if (msg.username && msg.token) {
-        redisClient.hgetall('users:' + msg.username, function(err, obj) {
+        redisClient.hgetall('twaddlr.users:' + msg.username, function(err, obj) {
           if (obj && obj.token == msg.token) {
             con.username = msg.username;
             con.token = obj.token;
@@ -105,7 +105,7 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
 
     con.on('chat:history', function(msg) {
       var messages = [];
-      redisClient.zrange('messages:history', -10, -1, function(err, results) {
+      redisClient.zrange('twaddlr.messages:history', -10, -1, function(err, results) {
         if (err) {
           console.log("Couldn't load history: " + util.inspect(err));
         } else {
@@ -126,7 +126,7 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
         timestamp: Date.now(),
         message: msg.message
       };
-      redisClient.zadd('messages:history', chatMsg.timestamp, JSON.stringify(chatMsg));
+      redisClient.zadd('twaddlr.messages:history', chatMsg.timestamp, JSON.stringify(chatMsg));
       dispatcher.broadcast('chat:message', chatMsg);
     });
 

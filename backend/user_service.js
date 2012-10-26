@@ -19,7 +19,7 @@ UserService.prototype.checkUsernameAvailable = function(username, callback) {
   //     console.log('result: ', data);
   // });
   console.log('checkUsernameAvailable for: ' + username);
-  var result = this.redisClient.sismember('users:list', username, function(err, data) {
+  var result = this.redisClient.sismember('twaddlr.users:list', username, function(err, data) {
     console.log('sismember -> ', data);
     callback(data === 0 ? true : false);
   });
@@ -38,8 +38,8 @@ UserService.prototype.register = function(username, password, email, callback) {
       var token = shasum.digest('hex');
       console.log('Created token: ' + token);
 
-      this.redisClient.sadd('users:list', username);
-      this.redisClient.hmset('users:' + username, {
+      this.redisClient.sadd('twaddlr.users:list', username);
+      this.redisClient.hmset('twaddlr.users:' + username, {
         username: username,
         password: password,
         email: email,
@@ -54,7 +54,7 @@ UserService.prototype.register = function(username, password, email, callback) {
 
 UserService.prototype.login = function(username, password, callback) {
   console.log("Login requested for user: " + username);
-  this.redisClient.hgetall('users:' + username, function(err, obj) {
+  this.redisClient.hgetall('twaddlr.users:' + username, function(err, obj) {
     if (obj === null) {
       console.log("Unknown username!");
       var e = new Error("Unknown username");
