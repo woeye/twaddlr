@@ -47,8 +47,10 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
               error: err
             });
           } else {
+            con.username = username;
+            con.token = token;
             con.send('registration:registered', {
-              usernane: username,
+              username: username,
               token: token
             });
           }
@@ -132,29 +134,3 @@ ComHub.prototype.init = function(server, redisClient, userService, chatService) 
 
 
 };
-
-
-
-/*
-
-
-    socket.on('login:verifyToken', function(data) {
-      if (data.username && data.token) {
-        redisClient.hgetall('users:' + data.username, function(err, obj) {
-          if (obj && obj.token == data.token) {
-            socket.emit('login:verifyTokenSucceeded');
-          } else {
-            socket.emit('login:verifyTokenFailed');
-          }
-        });
-      }
-    });
-
-
-
-    socket.on('chat:history', function(data) {
-    });
-
-  });
-};
-*/
