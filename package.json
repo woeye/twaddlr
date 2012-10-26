@@ -3,10 +3,10 @@
   "description": "A simple chat server based on node.js and socket.io",
   "author": "Lars Hoss <lars.hoss@gmail.com>",
   "keywords": ["node.js", "socket.io", "chat", "express"],
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "redis": "",
     "connect": "",
-    "socket.io": ""
+    "ws": ""
   }
 }
